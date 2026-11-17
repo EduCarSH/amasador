@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panadería El Trigal | Ticketeadora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Roboto,system-ui,sans-serif; }
+        body {
+            background: linear-gradient(145deg,#fdf6ec 0%,#f3e3d0 100%);
+            min-height:100vh; display:flex; justify-content:center; align-items:center; padding:1.5rem;
+        }
+        .app-container {
+            max-width:1440px; width:100%;
+            background:rgba(255,250,244,0.85); backdrop-filter:blur(12px);
+            border-radius:2.5rem; box-shadow:0 25px 50px -12px rgba(90,50,20,0.35);
+            padding:2rem 2rem 2.5rem; border:1px solid rgba(255,240,220,0.6);
+        }
+        /* HEADER */
+        .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
+        .logo-area h1 { font-size:1.9rem; font-weight:700; color:#5a3a1a; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+        .logo-area h1 i { color:#b5651e; background:#fff4e6; padding:0.5rem; border-radius:1.2rem; box-shadow:0 6px 12px rgba(150,90,30,0.2); }
+        .badge-emi { background:#8b5a2b; color:#fff4e6; font-size:0.8rem; font-weight:500; padding:0.3rem 1rem; border-radius:30px; }
+        .datetime { background:#fffaf2; padding:0.7rem 1.5rem; border-radius:3rem; font-weight:500; color:#7a4e22; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid #e8d5be; }
+        /* LAYOUT */
+        .main-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:1.5rem; align-items:start; }
+        @media (max-width:900px){ .main-grid{ grid-template-columns:1fr; } }
+        .card {
+            background:rgba(255,252,248,0.95); border-radius:1.8rem; padding:1.5rem 1.5rem 1rem;
+            box-shadow:0 10px 25px -10px rgba(120,70,20,0.25); border:1px solid rgba(255,240,225,0.9);
+        }
+        .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem; }
+        .card-header h2 { font-size:1.3rem; font-weight:600; color:#5a3a1a; }
+        .card-header h2 i { color:#b5651e; margin-right:0.5rem; }
+        /* MAS VENDIDOS */
+        .top-sellers { margin-bottom:1.2rem; }
+        .top-sellers-title { font-size:0.85rem; font-weight:700; color:#8b4e14; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem; }
+        .top-sellers-title i { color:#e0a020; }
+        .grid-sellers { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:0.6rem; }
+        .seller-card {
+            background:linear-gradient(145deg,#fffaf3,#fbeedd); border:1.5px solid #eedcc8; border-radius:1.1rem;
+            padding:0.8rem 0.5rem; text-align:center; cursor:pointer; transition:0.15s; position:relative; overflow:hidden;
+        }
+        .seller-card:hover { background:linear-gradient(145deg,#fbeedd,#f7e3cc); border-color:#d9b48f; transform:translateY(-3px); box-shadow:0 8px 16px -6px rgba(181,101,30,0.35); }
+        .seller-card:active { transform:scale(0.97); }
+        .seller-emoji { font-size:1.8rem; display:block; margin-bottom:0.3rem; }
+        .seller-name { font-size:0.75rem; font-weight:600; color:#4a2e12; display:block; line-height:1.2; margin-bottom:0.25rem; min-height:2em; }
+        .seller-price { font-size:0.8rem; font-weight:700; color:#8b4e14; background:white; padding:0.15rem 0.5rem; border-radius:30px; display:inline-block; }
+        .seller-rank { position:absolute; top:0.3rem; right:0.4rem; background:#e0a020; color:white; font-size:0.6rem; font-weight:800; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.2); }
+
+        /* BUSCADOR */
+        .search-wrapper { margin-bottom:0.9rem; position:relative; }
+        .search-wrapper i { position:absolute; left:1.1rem; top:50%; transform:translateY(-50%); color:#b58b5e; font-size:0.95rem; }
+        .search-input { width:100%; padding:0.8rem 2.8rem 0.8rem 2.7rem; border-radius:3rem; border:1.5px solid #e2cdb5; background:#fffdf9; font-size:0.95rem; color:#4a2e12; outline:none; transition:0.15s; }
+        .search-input:focus { border-color:#b5651e; box-shadow:0 0 0 4px rgba(181,101,30,0.12); }
+        .search-clear { position:absolute; right:0.9rem; top:50%; transform:translateY(-50%); background:none; border:none; color:#b58b5e; cursor:pointer; font-size:1.1rem; display:none; }
+        .search-clear.visible { display:block; }
+
+        /* ===== RESULTADOS EN CUADRÍCULA ===== */
+        .results-title {
+            font-size:0.8rem; font-weight:700; color:#8b4e14;
+            text-transform:uppercase; letter-spacing:0.5px;
+            margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem;
+        }
+        .results-title i { color:#b5651e; }
+        .grid-results {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+            gap:0.7rem;
+            max-height:400px;
+            overflow-y:auto;
+            padding-right:0.3rem;
+        }
+        .result-card {
+            background:linear-gradient(145deg,#fffaf3,#fff6ea);
+            border:1.5px solid #eedcc8;
+            border-radius:1.2rem;
+            padding:0.9rem 0.6rem;
+            text-align:center;
+            cursor:pointer;
+            transition:0.15s;
+            position:relative;
+            overflow:hidden;
+            display:flex; flex-direction:column;
+            align-items:center;
+        }
+        .result-card:hover {
+            background:linear-gradient(145deg,#fbeedd,#f7e3cc);
+            border-color:#d9b48f;
+            transform:translateY(-3px);
+            box-shadow:0 8px 16px -6px rgba(181,101,30,0.35);
+        }
+        .result-card:active { transform:scale(0.97); }
+        .result-emoji { font-size:1.9rem; display:block; margin-bottom:0.3rem; }
+        .result-name {
+            font-size:0.82rem; font-weight:600; color:#4a2e12;
+            line-height:1.2; margin-bottom:0.2rem; min-height:2em;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .result-sku { font-size:0.68rem; color:#9c7a58; margin-bottom:0.3rem; letter-spacing:0.2px; }
+        .result-price {
+            font-size:0.88rem; font-weight:700; color:#8b4e14;
+            background:white; padding:0.2rem 0.7rem; border-radius:30px;
+            display:inline-block; box-shadow:0 2px 4px rgba(0,0,0,0.04);
+        }
+        .result-add {
+            position:absolute; top:0.4rem; right:0.4rem;
+            width:24px; height:24px; border-radius:50%;
+            background:#b5651e; color:white; border:none;
+            font-size:0.7rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+            box-shadow:0 4px 8px rgba(181,101,30,0.4);
+            opacity:0; transition:0.15s;
+        }
+        .result-card:hover .result-add { opacity:1; }
+        .result-add:hover { background:#8f4e15; transform:scale(1.1); }
+
+        .no-results { text-align:center; color:#a98a6b; padding:2rem 1rem; font-style:italic; grid-column:1/-1; }
+
+        /* ============================================================ */
+        /* ============   PANEL DERECHO: TICKETERA (80mm)  ============ */
+        /* ============================================================ */
+        .printer-panel {
+            background: linear-gradient(160deg,#3a3a3a 0%,#1f1f1f 100%);
+            border-radius: 1.8rem;
+            padding: 0.6rem 0.6rem 0.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+            border: 1px solid #111;
+            display:flex; flex-direction:column; align-items:center;
+        }
+        .printer-label {
+            width:100%; display:flex; justify-content:space-between; align-items:center;
+            padding: 0.2rem 0.6rem 0.4rem; color:#9a9a9a; font-size:0.65rem; letter-spacing:1px; text-transform:uppercase;
+        }
+        .printer-label .leds { display:flex; gap:0.4rem; }
+        .printer-label .led { width:8px; height:8px; border-radius:50%; }
+        .led.green { background:#4ade80; box-shadow:0 0 6px #4ade80; }
+        .led.amber { background:#fbbf24; box-shadow:0 0 6px #fbbf24; }
+
+        .ticket-paper {
+            width:100%;
+            background:#fdfcf7;
+            font-family:'Courier New','Consolas',monospace;
+            font-size:1.02rem;
+            color:#1a1a1a;
+            padding: 1.5rem 1.4rem 1.7rem;
+            position:relative;
+            clip-path: polygon(
+                0% 0%, 100% 0%,
+                100% calc(100% - 6px),
+                97% 100%, 94% calc(100% - 6px), 91% 100%, 88% calc(100% - 6px),
+                85% 100%, 82% calc(100% - 6px), 79% 100%, 76% calc(100% - 6px),
+                73% 100%, 70% calc(100% - 6px), 67% 100%, 64% calc(100% - 6px),
+                61% 100%, 58% calc(100% - 6px), 55% 100%, 52% calc(100% - 6px),
+                49% 100%, 46% calc(100% - 6px), 43% 100%, 40% calc(100% - 6px),
+                37% 100%, 34% calc(100% - 6px), 31% 100%, 28% calc(100% - 6px),
+                25% 100%, 22% calc(100% - 6px), 19% 100%, 16% calc(100% - 6px),
+                13% 100%, 10% calc(100% - 6px), 7% 100%, 4% calc(100% - 6px),
+                0% 100%
+            );
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+            max-height: 620px;
+            overflow-y: auto;
+            min-height: 460px;
+        }
+        .ticket-paper::before {
+            content:''; position:absolute; inset:0;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+            pointer-events:none;
+        }
+        .ticket-paper::-webkit-scrollbar { width:5px; }
+        .ticket-paper::-webkit-scrollbar-thumb { background:#c9b89a; border-radius:4px; }
+
+        .tk-center { text-align:center; }
+        .tk-logo { font-size:1.65rem; font-weight:bold; letter-spacing:1px; margin-bottom:0.1rem; }
+        .tk-sub { font-size:0.88rem; color:#555; }
+        .tk-divider { border-top:1px dashed #555; margin:0.6rem 0; }
+        .tk-row { display:flex; justify-content:space-between; padding:0.12rem 0; font-size:0.98rem; }
+        .tk-row.total { font-size:1.25rem; font-weight:bold; border-top:2px solid #222; border-bottom:2px solid #222; padding:0.4rem 0; margin-top:0.3rem; }
+        .tk-small { font-size:0.85rem; color:#444; }
+        .tk-items-empty { text-align:center; color:#999; font-style:italic; padding:1.8rem 0; font-size:0.98rem; }
+        .tk-doc-type { text-align:center; font-weight:bold; font-size:1.1rem; background:#1a1a1a; color:#fdfcf7; padding:0.3rem 0; letter-spacing:2px; margin-bottom:0.5rem; }
+        .tk-barcode { display:flex; justify-content:center; gap:1px; margin-top:0.7rem; height:40px; align-items:flex-end; }
+        .tk-barcode span { display:inline-block; width:2px; background:#1a1a1a; }
+
+        .tk-product-line {
+            display:flex; align-items:center; gap:0.5rem;
+            padding:0.4rem 0; border-bottom:1px dotted #ccc;
+            font-size:0.98rem;
+        }
+        .tk-product-line:last-child { border-bottom:none; }
+        .tk-prod-info { flex:1; min-width:0; }
+        .tk-prod-name {
+            font-weight:600; font-size:0.98rem; color:#1a1a1a;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .tk-prod-meta { font-size:0.85rem; color:#666; }
+        .tk-qty-controls { display:flex; align-items:center; gap:0.3rem; flex-shrink:0; }
+        .tk-qty-btn {
+            width:26px; height:26px; border-radius:50%;
+            border:1.5px solid #333; background:#fff;
+            color:#333; font-size:0.9rem; font-weight:bold;
+            cursor:pointer; display:flex; align-items:center; justify-content:center;
+            transition:0.12s; padding:0; line-height:1;
+        }
+        .tk-qty-btn:hover { background:#333; color:#fff; }
+        .tk-qty-btn.minus:hover { background:#c24848; border-color:#c24848; }
+        .tk-qty-btn.plus:hover { background:#4a8a3a; border-color:#4a8a3a; }
+        .tk-qty-num { min-width:22px; text-align:center; font-weight:bold; font-size:0.95rem; }
+        .tk-prod-total { min-width:65px; text-align:right; font-weight:bold; font-size:0.98rem; }
+
+        .printer-controls { width:100%; margin-top:0.8rem; display:flex; flex-direction:column; gap:0.6rem; }
+        .doc-selector { display:flex; gap:0.4rem; background:#111; border-radius:1rem; padding:0.3rem; }
+        .doc-opt { flex:1; text-align:center; padding:0.55rem 0.2rem; border-radius:0.8rem; color:#999; font-size:0.8rem; font-weight:600; cursor:pointer; transition:0.15s; }
+        .doc-opt.active { background:#b5651e; color:white; box-shadow:0 4px 10px rgba(181,101,30,0.5); }
+        .printer-buttons { display:flex; gap:0.6rem; }
+        .p-btn { flex:1; border:none; border-radius:0.9rem; padding:0.85rem; font-weight:600; font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:0.4rem; cursor:pointer; transition:0.15s; }
+        .p-btn-clear { background:#2a2a2a; color:#ccc; border:1px solid #444; }
+        .p-btn-clear:hover { background:#333; color:white; }
+        .p-btn-emit { background:linear-gradient(145deg,#b5651e,#8b4e14); color:white; box-shadow:0 6px 14px rgba(181,101,30,0.5); }
+        .p-btn-emit:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(181,101,30,0.6); }
+        .p-btn:active { transform:scale(0.97); }
+
+        .modal-overlay { position:fixed; inset:0; background:rgba(40,20,5,0.65); backdrop-filter:blur(6px); display:none; justify-content:center; align-items:center; z-index:1000; padding:1.5rem; }
+        .modal-overlay.active { display:flex; }
+        .modal-content { background:#fffdf9; max-width:400px; width:100%; border-radius:2rem; padding:1.5rem; box-shadow:0 40px 70px rgba(0,0,0,0.6); }
+        .modal-actions { display:flex; gap:1rem; margin-top:1.5rem; }
+        .btn { border:none; border-radius:3rem; padding:0.85rem 1.2rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.6rem; cursor:pointer; font-size:0.95rem; flex:1; }
+        .btn-primary { background:#8b4e14; color:white; box-shadow:0 8px 18px -6px rgba(139,78,20,0.6); }
+        .btn-primary:hover { background:#6e3c0d; }
+        .btn-outline { background:#fffdf9; border:1.5px solid #d9c0a5; color:#8b4e14; }
+        .btn-outline:hover { background:#fbeedd; }
+
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#f5e8d9; border-radius:10px; }
+        ::-webkit-scrollbar-thumb { background:#d9b48f; border-radius:10px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-area">
+                <h1><i class="fas fa-bread-slice"></i> Panadería El Trigal <span class="badge-emi">TICKETERA</span></h1>
+                <p style="color:#8b5a2b; font-size:0.9rem; margin-top:0.2rem;">
+                    <i class="fas fa-check-circle" style="color:#4a8a3a;"></i> Vista previa en vivo del ticket · 80mm
+                </p>
+            </div>
+            <div class="datetime"><i class="fas fa-calendar-alt"></i> <span id="currentDateTime"></span></div>
+        </div>
+
+        <div class="main-grid">
+            <!-- ==================== COLUMNA IZQUIERDA ==================== -->
+            <div class="card">
+                <div class="card-header"><h2><i class="fas fa-basket-shopping"></i> Punto de venta</h2></div>
+
+                <div class="top-sellers">
+                    <div class="top-sellers-title"><i class="fas fa-fire"></i> Los más vendidos — click para agregar</div>
+                    <div class="grid-sellers" id="topSellersGrid"></div>
+                </div>
+
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar producto por nombre o código..." autocomplete="off">
+                    <button class="search-clear" id="searchClear"><i class="fas fa-times-circle"></i></button>
+                </div>
+
+                <!-- RESULTADOS EN CUADRÍCULA -->
+                <div class="results-title" id="resultsTitle"><i class="fas fa-list"></i> Todos los productos</div>
+                <div class="grid-results" id="resultsGrid"></div>
+            </div>
+
+            <!-- ==================== COLUMNA DERECHA: TICKETERA ==================== -->
+            <div class="printer-panel">
+                <div class="printer-label">
+                    <span><i class="fas fa-print"></i> TICKETERA TÉRMICA · 80mm</span>
+                    <div class="leds"><span class="led green"></span><span class="led amber"></span></div>
+                </div>
+
+                <div class="ticket-paper" id="ticketPreview"></div>
+
+                <div class="printer-controls">
+                    <div class="doc-selector" id="docSelector">
+                        <div class="doc-opt" data-type="boleta">BOLETA</div>
+                        <div class="doc-opt" data-type="factura">FACTURA</div>
+                        <div class="doc-opt active" data-type="ticket">TICKET</div>
+                    </div>
+                    <div class="printer-buttons">
+                        <button class="p-btn p-btn-clear" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Limpiar</button>
+                        <button class="p-btn p-btn-emit" id="emitBtn"><i class="fas fa-print"></i> Emitir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div style="text-align:center; margin-bottom:1rem;">
+                <div style="font-size:3rem; color:#4a8a3a; margin-bottom:0.5rem;"><i class="fas fa-check-circle"></i></div>
+                <h3 style="color:#4a2e12;">¡Ticket emitido!</h3>
+                <p style="color:#7a4e22; font-size:0.85rem; margin-top:0.3rem;">El documento se generó correctamente.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="closeModalBtn">Cerrar</button>
+                <button class="btn btn-primary" id="printTicketBtn"><i class="fas fa-print"></i> Imprimir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        /* ============ PRODUCTOS ============ */
+        const PRODUCTS = [
+            { id:'PAN001', name:'Pan francés', sku:'PAN-FRA-01', price:0.50, emoji:'🥖', top:true, rank:1 },
+            { id:'PAN002', name:'Pan de yema', sku:'PAN-YEM-02', price:1.20, emoji:'🥐', top:true, rank:2 },
+            { id:'PAN003', name:'Pan integral', sku:'PAN-INT-03', price:1.50, emoji:'🍞' },
+            { id:'PAN004', name:'Pan de molde', sku:'PAN-MOL-04', price:8.50, emoji:'🍞' },
+            { id:'PAN005', name:'Pan con chicharrón', sku:'PAN-CHI-05', price:6.00, emoji:'🥪', top:true, rank:4 },
+            { id:'PAN006', name:'Croissant de mantequilla', sku:'PAN-CRO-06', price:2.80, emoji:'🥐', top:true, rank:3 },
+            { id:'PAN007', name:'Empanada de carne', sku:'PAN-EMP-07', price:3.50, emoji:'🥟', top:true, rank:5 },
+            { id:'PAN008', name:'Torta de chocolate (porción)', sku:'PAN-TOR-08', price:7.50, emoji:'🍰' },
+            { id:'PAN009', name:'Alfajor de manjar', sku:'PAN-ALF-09', price:2.00, emoji:'🍪' },
+            { id:'PAN010', name:'Galleta de avena', sku:'PAN-GAL-10', price:1.00, emoji:'🍪' },
+            { id:'PAN011', name:'Café pasado (8 oz)', sku:'BEB-CAF-11', price:3.00, emoji:'☕', top:true, rank:6 },
+            { id:'PAN012', name:'Chocolate caliente', sku:'BEB-CHO-12', price:4.00, emoji:'🍫' },
+            { id:'PAN013', name:'Jugo de naranja natural', sku:'BEB-JUG-13', price:4.50, emoji:'🍊' },
+            { id:'PAN014', name:'Panetón (unidad)', sku:'PAN-PAN-14', price:18.00, emoji:'🍞' },
+            { id:'PAN015', name:'Torta entera de cumpleaños', sku:'PAN-TOR-15', price:45.00, emoji:'🎂' }
+        ];
+        const TOP_SELLERS = PRODUCTS.filter(p=>p.top).sort((a,b)=>a.rank-b.rank).slice(0,6);
+
+        let cart = [];
+        let currentDocType = 'ticket';
+        let searchFilter = '';
+
+        /* ============ DOM ============ */
+        const topSellersGrid = document.getElementById('topSellersGrid');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const ticketPreview = document.getElementById('ticketPreview');
+        const docOpts = document.querySelectorAll('.doc-opt');
+        const clearCartBtn = document.getElementById('clearCartBtn');
+        const emitBtn = document.getElementById('emitBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const printTicketBtn = document.getElementById('printTicketBtn');
+        const currentDateTimeEl = document.getElementById('currentDateTime');
+
+        const fmt = n => n.toFixed(2);
+
+        function updateDateTime(){
+            currentDateTimeEl.textContent = new Date().toLocaleString('es-PE');
+        }
+        setInterval(updateDateTime,1000); updateDateTime();
+
+        function calculateTotals(){
+            let subtotal = 0;
+            cart.forEach(i=>{ const p = PRODUCTS.find(x=>x.id===i.productId); if(p) subtotal += p.price*i.quantity; });
+            const igv = subtotal*0.18;
+            return { subtotal, igv, total: subtotal+igv };
+        }
+
+        /* ============ RENDER MÁS VENDIDOS ============ */
+        function renderTopSellers(){
+            topSellersGrid.innerHTML = '';
+            TOP_SELLERS.forEach(p=>{
+                const d = document.createElement('div');
+                d.className = 'seller-card';
+                d.innerHTML = `<span class="seller-rank">${p.rank}</span><span class="seller-emoji">${p.emoji}</span><span class="seller-name">${p.name}</span><span class="seller-price">S/ ${fmt(p.price)}</span>`;
+                d.addEventListener('click',()=>addToCart(p.id));
+                topSellersGrid.appendChild(d);
+            });
+        }
+
+        /* ============ RENDER RESULTADOS EN CUADRÍCULA ============ */
+        function renderResults(){
+            const f = searchFilter.trim().toLowerCase();
+            const filtered = PRODUCTS.filter(p=> !f || p.name.toLowerCase().includes(f) || p.sku.toLowerCase().includes(f));
+
+            // Título dinámico
+            if(f){
+                resultsTitle.innerHTML = `<i class="fas fa-search"></i> Resultados para "<span style="color:#4a2e12;">${searchFilter}</span>" (${filtered.length})`;
+            } else {
+                resultsTitle.innerHTML = `<i class="fas fa-list"></i> Todos los productos (${filtered.length})`;
+            }
+
+            if(filtered.length === 0){
+                resultsGrid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i> Sin resultados para "<strong>${searchFilter}</strong>"</div>`;
+                return;
+            }
+
+            resultsGrid.innerHTML = '';
+            filtered.forEach(p=>{
+                const d = document.createElement('div');
+                d.className = 'result-card';
+                d.innerHTML = `
+                    <button class="result-add" data-id="${p.id}" title="Agregar"><i class="fas fa-plus"></i></button>
+                    <span class="result-emoji">${p.emoji}</span>
+                    <span class="result-name">${p.name}</span>
+                    <span class="result-sku">${p.sku}</span>
+                    <span class="result-price">S/ ${fmt(p.price)}</span>
+                `;
+                // Click en toda la tarjeta agrega al carrito
+                d.addEventListener('click', ()=>addToCart(p.id));
+                resultsGrid.appendChild(d);
+            });
+        }
+
+        /* ============ BUSCADOR ============ */
+        searchInput.addEventListener('input',e=>{
+            searchFilter = e.target.value;
+            searchClear.classList.toggle('visible', searchFilter.length>0);
+            renderResults();
+        });
+        searchClear.addEventListener('click',()=>{
+            searchInput.value=''; searchFilter=''; searchClear.classList.remove('visible'); renderResults(); searchInput.focus();
+        });
+
+        /* ============ CARRITO ============ */
+        function addToCart(id){
+            const item = cart.find(i=>i.productId===id);
+            if(item) item.quantity++;
+            else cart.push({ productId:id, quantity:1 });
+            renderTicketPreview();
+        }
+        function changeQuantity(id, delta){
+            const item = cart.find(i=>i.productId===id);
+            if(!item) return;
+            item.quantity += delta;
+            if(item.quantity <= 0){
+                cart = cart.filter(i=>i.productId!==id);
+            }
+            renderTicketPreview();
+        }
+
+        /* ============ VISTA PREVIA DEL TICKET ============ */
+        function renderTicketPreview(){
+            const {subtotal, igv, total} = calculateTotals();
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-PE', {day:'2-digit', month:'2-digit', year:'numeric'});
+            const timeStr = now.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit'});
+            const docNum = 'P'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9999)).padStart(4,'0');
+
+            let title='', sub='';
+            if(currentDocType==='boleta'){ title='BOLETA ELECTRÓNICA'; sub='RUC: 20456789012'; }
+            else if(currentDocType==='factura'){ title='FACTURA ELECTRÓNICA'; sub='RUC: 20456789012'; }
+            else { title='TICKET DE VENTA'; sub='Comprobante interno'; }
+
+            let itemsHtml = '';
+            if(cart.length === 0){
+                itemsHtml = `<div class="tk-items-empty">— Sin productos —<br><span style="font-size:0.85rem;">Agrega productos para ver el ticket</span></div>`;
+            } else {
+                itemsHtml += `<div class="tk-row tk-small" style="border-bottom:1px dashed #888; padding-bottom:0.25rem; margin-bottom:0.25rem; font-weight:bold;">
+                    <span>DESCRIPCIÓN</span><span>TOTAL</span>
+                </div>`;
+                cart.forEach(i=>{
+                    const p = PRODUCTS.find(x=>x.id===i.productId);
+                    if(!p) return;
+                    itemsHtml += `
+                        <div class="tk-product-line">
+                            <div class="tk-prod-info">
+                                <div class="tk-prod-name">${p.emoji} ${p.name}</div>
+                                <div class="tk-prod-meta">${fmt(p.price)} c/u</div>
+                            </div>
+                            <div class="tk-qty-controls">
+                                <button class="tk-qty-btn minus" data-id="${p.id}" data-delta="-1" title="Quitar uno"><i class="fas fa-minus" style="font-size:0.65rem;"></i></button>
+                                <span class="tk-qty-num">${i.quantity}</span>
+                                <button class="tk-qty-btn plus" data-id="${p.id}" data-delta="1" title="Agregar uno"><i class="fas fa-plus" style="font-size:0.65rem;"></i></button>
+                            </div>
+                            <div class="tk-prod-total">${fmt(p.price*i.quantity)}</div>
+                        </div>`;
+                });
+            }
+
+            let barcodeHtml = '';
+            if(cart.length > 0){
+                let bars = '';
+                const seed = docNum.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+                for(let k=0;k<60;k++){
+                    const h = 12 + ((seed * (k+3)) % 20);
+                    const w = ((seed * (k+7)) % 2) + 1;
+                    bars += `<span style="height:${h}px; width:${w}px;"></span>`;
+                }
+                barcodeHtml = `<div class="tk-barcode">${bars}</div><div class="tk-center tk-small" style="margin-top:0.2rem; letter-spacing:2px;">${docNum}</div>`;
+            }
+
+            ticketPreview.innerHTML = `
+                <div class="tk-center">
+                    <div class="tk-logo">PANADERÍA EL TRIGAL</div>
+                    <div class="tk-sub">RUC: 20456789012</div>
+                    <div class="tk-sub">Av. Los Trigales 456 - Lima</div>
+                    <div class="tk-sub">Tel: (01) 555-1234</div>
+                </div>
+                <div class="tk-divider"></div>
+                <div class="tk-doc-type">${title}</div>
+                <div class="tk-row tk-small"><span>FECHA:</span><span>${dateStr} ${timeStr}</span></div>
+                <div class="tk-row tk-small"><span>N° DOC:</span><span>${docNum}</span></div>
+                <div class="tk-row tk-small"><span>CAJA:</span><span>01</span></div>
+                <div class="tk-row tk-small"><span>CAJERO:</span><span>VENDEDOR 01</span></div>
+                <div class="tk-divider"></div>
+                ${itemsHtml}
+                <div class="tk-divider"></div>
+                <div class="tk-row"><span>SUBTOTAL</span><span>S/ ${fmt(subtotal)}</span></div>
+                <div class="tk-row"><span>IGV (18%)</span><span>S/ ${fmt(igv)}</span></div>
+                <div class="tk-row total"><span>TOTAL</span><span>S/ ${fmt(total)}</span></div>
+                <div class="tk-row tk-small" style="margin-top:0.3rem;"><span>EFECTIVO:</span><span>S/ ${fmt(total)}</span></div>
+                <div class="tk-row tk-small"><span>VUELTO:</span><span>S/ 0.00</span></div>
+                <div class="tk-divider"></div>
+                <div class="tk-center tk-small">
+                    ${sub}<br>
+                    <span style="margin-top:0.3rem; display:inline-block;">¡Gracias por su compra!</span><br>
+                    <span style="font-size:0.78rem; color:#888;">Conserve su comprobante</span>
+                </div>
+                ${barcodeHtml}
+                <div class="tk-center tk-small" style="margin-top:0.4rem; color:#999; font-size:0.78rem;">
+                    *** FIN DEL DOCUMENTO ***
+                </div>
+            `;
+
+            ticketPreview.querySelectorAll('.tk-qty-btn').forEach(btn=>{
+                btn.addEventListener('click',e=>{
+                    e.stopPropagation();
+                    const id = btn.dataset.id;
+                    const delta = parseInt(btn.dataset.delta,10);
+                    changeQuantity(id, delta);
+                });
+            });
+        }
+
+        /* ============ TIPO DE DOCUMENTO ============ */
+        docOpts.forEach(o=>{
+            o.addEventListener('click',()=>{
+                docOpts.forEach(x=>x.classList.remove('active'));
+                o.classList.add('active');
+                currentDocType = o.dataset.type;
+                renderTicketPreview();
+            });
+        });
+
+        /* ============ LIMPIAR ============ */
+        clearCartBtn.addEventListener('click',()=>{
+            if(cart.length === 0) return;
+            if(confirm('¿Vaciar el ticket actual?')){
+                cart = [];
+                renderTicketPreview();
+            }
+        });
+
+        /* ============ EMITIR ============ */
+        emitBtn.addEventListener('click',()=>{
+            if(cart.length === 0){
+                alert('Agrega al menos un producto antes de emitir.');
+                return;
+            }
+            modalOverlay.classList.add('active');
+        });
+
+        function closeModal(){ modalOverlay.classList.remove('active'); }
+        closeModalBtn.addEventListener('click',closeModal);
+        modalOverlay.addEventListener('click',e=>{ if(e.target===modalOverlay) closeModal(); });
+
+        /* ============ IMPRIMIR ============ */
+        printTicketBtn.addEventListener('click',()=>{
+            const w = window.open('','_blank','height=750,width=420');
+            const styles = `
+                <style>
+                    body{font-family:'Courier New',monospace;padding:0.5rem;max-width:320px;margin:0 auto;font-size:14px;}
+                    .tk-center{text-align:center;}
+                    .tk-logo{font-size:22px;font-weight:bold;letter-spacing:1px;}
+                    .tk-sub{font-size:12px;color:#555;}
+                    .tk-divider{border-top:1px dashed #555;margin:8px 0;}
+                    .tk-row{display:flex;justify-content:space-between;padding:2px 0;font-size:14px;}
+                    .tk-row.total{font-size:18px;font-weight:bold;border-top:2px solid #222;border-bottom:2px solid #222;padding:6px 0;margin-top:4px;}
+                    .tk-small{font-size:12px;color:#444;}
+                    .tk-doc-type{text-align:center;font-weight:bold;font-size:16px;background:#1a1a1a;color:#fdfcf7;padding:4px 0;letter-spacing:2px;margin-bottom:6px;}
+                    .tk-barcode{display:flex;justify-content:center;gap:1px;margin-top:10px;height:40px;align-items:flex-end;}
+                    .tk-barcode span{display:inline-block;background:#1a1a1a;}
+                    .tk-items-empty{text-align:center;color:#999;font-style:italic;padding:20px 0;font-size:14px;}
+                    .tk-product-line{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px dotted #ccc;}
+                    .tk-prod-info{flex:1;}
+                    .tk-prod-name{font-weight:600;font-size:14px;}
+                    .tk-prod-meta{font-size:12px;color:#666;}
+                    .tk-qty-controls{display:none;}
+                    .tk-prod-total{font-weight:bold;font-size:14px;}
+                </style>`;
+            w.document.write(`<html><head><title>Imprimir ticket</title>${styles}</head><body>${ticketPreview.innerHTML}<script>window.onload=function(){window.print();}<\/script></body></html>`);
+            w.document.close();
+        });
+
+        /* ============ INICIALIZACIÓN ============ */
+        renderTopSellers();
+        renderResults();
+        renderTicketPreview();
+    })();
+    </script>
+</body>
+</html>
