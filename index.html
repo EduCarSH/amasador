@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amasador - panadería | Ticketeadora</title>
+    <title>Panadería El Trigal | Ticketeadora</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Roboto,system-ui,sans-serif; }
@@ -33,6 +33,7 @@
         .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem; }
         .card-header h2 { font-size:1.3rem; font-weight:600; color:#5a3a1a; }
         .card-header h2 i { color:#b5651e; margin-right:0.5rem; }
+        
         /* MAS VENDIDOS */
         .top-sellers { margin-bottom:1.2rem; }
         .top-sellers-title { font-size:0.85rem; font-weight:700; color:#8b4e14; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem; }
@@ -57,7 +58,7 @@
         .search-clear { position:absolute; right:0.9rem; top:50%; transform:translateY(-50%); background:none; border:none; color:#b58b5e; cursor:pointer; font-size:1.1rem; display:none; }
         .search-clear.visible { display:block; }
 
-        /* ===== RESULTADOS EN CUADRÍCULA ===== */
+        /* RESULTADOS EN CUADRÍCULA */
         .results-title {
             font-size:0.8rem; font-weight:700; color:#8b4e14;
             text-transform:uppercase; letter-spacing:0.5px;
@@ -114,7 +115,6 @@
         }
         .result-card:hover .result-add { opacity:1; }
         .result-add:hover { background:#8f4e15; transform:scale(1.1); }
-
         .no-results { text-align:center; color:#a98a6b; padding:2rem 1rem; font-style:italic; grid-column:1/-1; }
 
         /* ============================================================ */
@@ -220,10 +220,11 @@
         .p-btn-emit { background:linear-gradient(145deg,#b5651e,#8b4e14); color:white; box-shadow:0 6px 14px rgba(181,101,30,0.5); }
         .p-btn-emit:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(181,101,30,0.6); }
         .p-btn:active { transform:scale(0.97); }
+        .p-btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
 
         .modal-overlay { position:fixed; inset:0; background:rgba(40,20,5,0.65); backdrop-filter:blur(6px); display:none; justify-content:center; align-items:center; z-index:1000; padding:1.5rem; }
         .modal-overlay.active { display:flex; }
-        .modal-content { background:#fffdf9; max-width:400px; width:100%; border-radius:2rem; padding:1.5rem; box-shadow:0 40px 70px rgba(0,0,0,0.6); }
+        .modal-content { background:#fffdf9; max-width:400px; width:100%; border-radius:2rem; padding:1.5rem; box-shadow:0 40px 70px rgba(0,0,0,0.6); text-align:center; }
         .modal-actions { display:flex; gap:1rem; margin-top:1.5rem; }
         .btn { border:none; border-radius:3rem; padding:0.85rem 1.2rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.6rem; cursor:pointer; font-size:0.95rem; flex:1; }
         .btn-primary { background:#8b4e14; color:white; box-shadow:0 8px 18px -6px rgba(139,78,20,0.6); }
@@ -297,11 +298,9 @@
     <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <div style="text-align:center; margin-bottom:1rem;">
-                <div style="font-size:3rem; color:#4a8a3a; margin-bottom:0.5rem;"><i class="fas fa-check-circle"></i></div>
-                <h3 style="color:#4a2e12;">¡Ticket emitido!</h3>
-                <p style="color:#7a4e22; font-size:0.85rem; margin-top:0.3rem;">El documento se generó correctamente.</p>
-            </div>
+            <div style="font-size:3rem; color:#4a8a3a; margin-bottom:0.5rem;"><i class="fas fa-check-circle"></i></div>
+            <h3 style="color:#4a2e12;" id="modalTitle">¡Ticket emitido!</h3>
+            <p style="color:#7a4e22; font-size:0.85rem; margin-top:0.3rem;" id="modalMessage">El documento se generó correctamente.</p>
             <div class="modal-actions">
                 <button class="btn btn-outline" id="closeModalBtn">Cerrar</button>
                 <button class="btn btn-primary" id="printTicketBtn"><i class="fas fa-print"></i> Imprimir</button>
@@ -381,7 +380,6 @@
             const f = searchFilter.trim().toLowerCase();
             const filtered = PRODUCTS.filter(p=> !f || p.name.toLowerCase().includes(f) || p.sku.toLowerCase().includes(f));
 
-            // Título dinámico
             if(f){
                 resultsTitle.innerHTML = `<i class="fas fa-search"></i> Resultados para "<span style="color:#4a2e12;">${searchFilter}</span>" (${filtered.length})`;
             } else {
@@ -404,7 +402,6 @@
                     <span class="result-sku">${p.sku}</span>
                     <span class="result-price">S/ ${fmt(p.price)}</span>
                 `;
-                // Click en toda la tarjeta agrega al carrito
                 d.addEventListener('click', ()=>addToCart(p.id));
                 resultsGrid.appendChild(d);
             });
@@ -550,13 +547,63 @@
             }
         });
 
-        /* ============ EMITIR ============ */
-        emitBtn.addEventListener('click',()=>{
-            if(cart.length === 0){
+        /* ============ EMITIR CON BACKEND ============ */
+        emitBtn.addEventListener('click', async () => {
+            if (cart.length === 0) {
                 alert('Agrega al menos un producto antes de emitir.');
                 return;
             }
-            modalOverlay.classList.add('active');
+
+            const totales = calculateTotals();
+
+            const datosVenta = {
+                tipoDocumento: currentDocType,
+                items: cart.map(item => {
+                    const prod = PRODUCTS.find(p => p.id === item.productId);
+                    return { 
+                        nombre: prod.name, 
+                        cantidad: item.quantity,
+                        precio: prod.price
+                    };
+                }),
+                subtotal: parseFloat(totales.subtotal.toFixed(2)),
+                igv: parseFloat(totales.igv.toFixed(2)),
+                total: parseFloat(totales.total.toFixed(2)),
+                cajero: 'VENDEDOR 01'
+            };
+
+            const textoOriginal = emitBtn.innerHTML;
+            emitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Emitiendo...';
+            emitBtn.disabled = true;
+
+            try {
+                // ⚠️ AQUÍ ESTÁ TU URL DE CLOUDFLARE WORKER
+                const URL_WORKER = 'https://api-panaderia.lyradios.workers.dev/'; 
+                
+                const respuesta = await fetch(URL_WORKER, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosVenta)
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.exito) {
+                    document.getElementById('modalTitle').textContent = '¡Ticket ' + resultado.numTicket + ' emitido!';
+                    document.getElementById('modalMessage').textContent = 'Guardado el ' + resultado.fecha;
+                    modalOverlay.classList.add('active');
+                    
+                    cart = [];
+                    renderTicketPreview();
+                } else {
+                    alert('Error al emitir: ' + (resultado.error || 'Desconocido'));
+                }
+            } catch (error) {
+                alert('Error de conexión con el backend: ' + error.message);
+            } finally {
+                emitBtn.innerHTML = textoOriginal;
+                emitBtn.disabled = false;
+            }
         });
 
         function closeModal(){ modalOverlay.classList.remove('active'); }
