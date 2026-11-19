@@ -658,13 +658,20 @@
                 if (resultado.exito) {
                     alert('¡Producto guardado exitosamente!');
                     closeProductModal();
-                    await cargarProductos();
+                    
+                    // Devolvemos el botón a la normalidad de inmediato
+                    saveProductBtn.innerHTML = textoOriginal;
+                    saveProductBtn.disabled = false;
+                    
+                    // Recargamos en segundo plano
+                    cargarProductos().catch(e => console.log("Error al recargar:", e));
                 } else {
                     alert('Error al guardar: ' + (resultado.error || 'Desconocido'));
+                    saveProductBtn.innerHTML = textoOriginal;
+                    saveProductBtn.disabled = false;
                 }
             } catch (error) {
                 alert('Error de conexión: ' + error.message);
-            } finally {
                 saveProductBtn.innerHTML = textoOriginal;
                 saveProductBtn.disabled = false;
             }
