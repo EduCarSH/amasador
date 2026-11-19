@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panadería El Trigal | Ticketeadora</title>
+    <title>Amasador - Panadería | Ticketeadora</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Roboto,system-ui,sans-serif; }
@@ -76,7 +76,7 @@
 
         /* --- TODOS LOS PRODUCTOS (OCULTOS POR DEFECTO) --- */
         .results-container {
-            display: none; /* Oculto al inicio */
+            display: none; 
             animation: fadeIn 0.3s ease;
         }
         @keyframes fadeIn {
@@ -252,7 +252,7 @@
     <div class="app-container">
         <div class="header">
             <div class="logo-area">
-                <h1><i class="fas fa-bread-slice"></i> Panadería El Trigal <span class="badge-emi">TICKETERA</span></h1>
+                <h1><i class="fas fa-bread-slice"></i> Amasador - Panadería <span class="badge-emi">TICKETERA</span></h1>
                 <p style="color:#8b5a2b; font-size:0.9rem; margin-top:0.2rem;">
                     <i class="fas fa-check-circle" style="color:#4a8a3a;"></i> Vista previa en vivo del ticket · 80mm
                 </p>
@@ -278,7 +278,6 @@
                     <button class="search-clear" id="searchClear"><i class="fas fa-times-circle"></i></button>
                 </div>
 
-                <!-- CONTENEDOR DE RESULTADOS (Oculto por defecto) -->
                 <div class="results-container" id="resultsContainer">
                     <div class="results-title" id="resultsTitle"><i class="fas fa-search"></i> Resultados</div>
                     <div class="grid-results" id="resultsGrid"></div>
@@ -376,7 +375,7 @@
         let searchFilter = '';
 
         const topSellersGrid = document.getElementById('topSellersGrid');
-        const resultsContainer = document.getElementById('resultsContainer'); // Nuevo
+        const resultsContainer = document.getElementById('resultsContainer');
         const resultsGrid = document.getElementById('resultsGrid');
         const resultsTitle = document.getElementById('resultsTitle');
         const searchInput = document.getElementById('searchInput');
@@ -418,7 +417,6 @@
                 if (data.exito && data.productos) {
                     PRODUCTS = data.productos;
                     renderTopSellers();
-                    // Solo renderizamos los resultados si hay una búsqueda activa
                     if (searchFilter.trim() !== '') {
                         renderResults();
                     }
@@ -486,15 +484,14 @@
             });
         }
 
-        // Lógica del buscador
         searchInput.addEventListener('input',e=>{
             searchFilter = e.target.value;
             searchClear.classList.toggle('visible', searchFilter.length>0);
 
             if (searchFilter.trim() === '') {
-                resultsContainer.style.display = 'none'; // Ocultar si está vacío
+                resultsContainer.style.display = 'none';
             } else {
-                resultsContainer.style.display = 'block'; // Mostrar si hay texto
+                resultsContainer.style.display = 'block';
                 renderResults();
             }
         });
@@ -503,7 +500,7 @@
             searchInput.value=''; 
             searchFilter=''; 
             searchClear.classList.remove('visible'); 
-            resultsContainer.style.display = 'none'; // Ocultar al limpiar
+            resultsContainer.style.display = 'none';
             searchInput.focus();
         });
 
@@ -531,8 +528,9 @@
             const docNum = 'P'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9999)).padStart(4,'0');
 
             let title='', sub='';
-            if(currentDocType==='boleta'){ title='BOLETA ELECTRÓNICA'; sub='RUC: 20456789012'; }
-            else if(currentDocType==='factura'){ title='FACTURA ELECTRÓNICA'; sub='RUC: 20456789012'; }
+            // Datos reales aplicados aquí
+            if(currentDocType==='boleta'){ title='BOLETA ELECTRÓNICA'; sub='RUC: 10460148729'; }
+            else if(currentDocType==='factura'){ title='FACTURA ELECTRÓNICA'; sub='RUC: 10460148729'; }
             else { title='TICKET DE VENTA'; sub='Comprobante interno'; }
 
             let itemsHtml = '';
@@ -575,10 +573,10 @@
 
             ticketPreview.innerHTML = `
                 <div class="tk-center">
-                    <div class="tk-logo">PANADERÍA EL TRIGAL</div>
-                    <div class="tk-sub">RUC: 20456789012</div>
-                    <div class="tk-sub">Av. Los Trigales 456 - Lima</div>
-                    <div class="tk-sub">Tel: (01) 555-1234</div>
+                    <div class="tk-logo">AMASADOR - PANADERÍA</div>
+                    <div class="tk-sub">RUC: 10460148729</div>
+                    <div class="tk-sub">Av. Varela 1205 - Breña</div>
+                    <div class="tk-sub">Cel: 982666483</div>
                 </div>
                 <div class="tk-divider"></div>
                 <div class="tk-doc-type">${title}</div>
@@ -783,7 +781,6 @@
                     saveProductBtn.innerHTML = textoOriginal;
                     saveProductBtn.disabled = false;
                     
-                    // Recargamos productos, pero la lista de resultados no aparecerá si no hay búsqueda
                     cargarProductos().catch(e => console.log("Error al recargar:", e));
                 } else {
                     alert('Error al guardar: ' + (resultado.error || 'Desconocido'));
