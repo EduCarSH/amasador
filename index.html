@@ -616,7 +616,6 @@
             let imageName = null;
             let enlaceDirecto = null;
 
-            // Si el usuario subió un archivo desde su PC
             if (file) {
                 imageBase64 = await new Promise((resolve, reject) => {
                     const reader = new FileReader();
@@ -626,7 +625,6 @@
                 });
                 imageName = Date.now() + '-' + file.name.replace(/\s+/g, '-');
             } 
-            // Si no subió archivo, pero pegó un enlace
             else if (imageUrlText) {
                 enlaceDirecto = imageUrlText;
             }
@@ -639,9 +637,9 @@
                 sku: document.getElementById('newProdSku').value || 'SKU-' + Date.now().toString().slice(-4),
                 top: document.getElementById('newProdTop').value === 'SI',
                 rank: 99,
-                imageBase64: imageBase64, // Para la opción 1
+                imageBase64: imageBase64,
                 imageName: imageName,
-                imageUrl: enlaceDirecto    // Para la opción 2
+                imageUrl: enlaceDirecto
             };
 
             const textoOriginal = saveProductBtn.innerHTML;
