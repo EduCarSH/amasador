@@ -18,10 +18,14 @@
             --radius-lg:1.5rem; --radius-md:1rem;
         }
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Roboto,system-ui,sans-serif; }
-        body { background: linear-gradient(145deg,var(--c-bg-1) 0%,var(--c-bg-2) 100%); min-height:100vh; display:flex; justify-content:center; align-items:flex-start; padding:1rem; }
-        .app-container { max-width:1440px; width:100%; background:rgba(255,250,244,0.85); backdrop-filter:blur(12px); border-radius:2rem; box-shadow:0 25px 50px -12px rgba(90,50,20,0.35); padding:1.5rem 2rem 2rem; border:1px solid rgba(255,240,220,0.6); }
         
-        .header { position:sticky; top:0.5rem; z-index:50; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:1rem; background:rgba(253,246,236,0.88); backdrop-filter:blur(10px); padding:0.6rem 1rem; border-radius:1.2rem; border:1px solid rgba(232,213,190,0.7); box-shadow:0 8px 20px -12px rgba(90,50,20,0.3); margin-bottom: 1.5rem; }
+        /* --- LAYOUT 100VH (Sin scroll general) --- */
+        html, body { height: 100%; margin: 0; overflow: hidden; }
+        body { background: linear-gradient(145deg,var(--c-bg-1) 0%,var(--c-bg-2) 100%); display:flex; justify-content:center; align-items:center; padding:1rem; }
+        
+        .app-container { width:100%; max-width:1440px; height: 100%; max-height: 900px; background:rgba(255,250,244,0.85); backdrop-filter:blur(12px); border-radius:2rem; box-shadow:0 25px 50px -12px rgba(90,50,20,0.35); padding:1.5rem 2rem; border:1px solid rgba(255,240,220,0.6); display: flex; flex-direction: column; }
+        
+        .header { flex-shrink: 0; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:1rem; background:rgba(253,246,236,0.88); backdrop-filter:blur(10px); padding:0.6rem 1rem; border-radius:1.2rem; border:1px solid rgba(232,213,190,0.7); box-shadow:0 8px 20px -12px rgba(90,50,20,0.3); margin-bottom: 1rem; }
         .logo-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
         .logo-area h1 { font-size:1.6rem; font-weight:700; color:var(--c-brown-700); display:flex; align-items:center; gap:0.5rem; }
         .logo-area h1 i { color:var(--c-accent); background:#fff4e6; padding:0.4rem; border-radius:1rem; box-shadow:0 6px 12px rgba(150,90,30,0.2); }
@@ -29,13 +33,21 @@
         .datetime { background:var(--c-cream); padding:0.45rem 1rem; border-radius:2rem; font-weight:600; font-size:0.85rem; color:#7a4e22; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid var(--c-border); display: flex; align-items: center; gap: 0.45rem; font-variant-numeric:tabular-nums; }
         .datetime i { color:var(--c-accent); }
         
-        .main-grid { display:grid; grid-template-columns: 1.6fr 1fr; gap:1.5rem; align-items:start; }
-        .col-left { display:flex; flex-direction:column; gap:1.2rem; min-width:0; }
-        .col-right { min-width:0; }
-        @media (max-width:900px){ .main-grid{ grid-template-columns:1fr; } body{padding:0.6rem;} .app-container{padding:1rem;} .printer-panel{ position:static; } }
+        /* --- MAIN GRID --- */
+        .main-grid { display:grid; grid-template-columns: 1.6fr 1fr; gap:1.5rem; flex: 1; min-height: 0; }
+        .col-left { display:flex; flex-direction:column; min-height:0; }
+        .col-right { display:flex; flex-direction:column; min-height:0; }
         
-        .card { background:rgba(255,252,248,0.95); border-radius:var(--radius-lg); padding:1.2rem 1.2rem 0.8rem; box-shadow:var(--shadow-card); border:1px solid rgba(255,240,225,0.9); }
-        .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem; }
+        @media (max-width:900px){ 
+            .main-grid{ grid-template-columns:1fr; } 
+            body{padding:0.6rem;} 
+            .app-container{padding:1rem; height: auto; max-height: none; overflow-y: auto;} 
+            .col-right { margin-top: 1rem; } 
+            .ticket-paper { max-height: 500px; }
+        }
+        
+        .card { flex: 1; display: flex; flex-direction: column; min-height: 0; background:rgba(255,252,248,0.95); border-radius:var(--radius-lg); padding:1.2rem 1.2rem 0.8rem; box-shadow:var(--shadow-card); border:1px solid rgba(255,240,225,0.9); }
+        .card-header { flex-shrink: 0; display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem; }
         .card-header h2 { font-size:1.2rem; font-weight:600; color:var(--c-brown-700); }
         .card-header h2 i { color:var(--c-accent); margin-right:0.4rem; }
         
@@ -43,15 +55,16 @@
         .btn-add-prod:hover { transform:translateY(-2px); box-shadow:0 8px 16px rgba(139,90,43,0.45); }
         .btn-add-prod:active { transform:scale(0.96); }
 
-        /* --- CATEGORÍAS Y MÁS VENDIDOS --- */
-        .category-tabs { display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.5rem; margin-bottom:0.8rem; scrollbar-width:none; }
+        /* --- CATEGORÍAS --- */
+        .category-tabs { flex-shrink: 0; display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.5rem; margin-bottom:0.8rem; scrollbar-width:none; }
         .category-tabs::-webkit-scrollbar { display:none; }
         .cat-btn { background:#fff; border:1.5px solid var(--c-border); color:var(--c-brown-700); padding:0.4rem 1rem; border-radius:2rem; font-size:0.8rem; font-weight:600; cursor:pointer; white-space:nowrap; transition:0.15s; }
         .cat-btn:hover { background:var(--c-cream); }
         .cat-btn.active { background:var(--c-accent); color:white; border-color:var(--c-accent); box-shadow:0 4px 10px rgba(181,101,30,0.3); }
-        
-        /* Cuadrícula ajustada para 18 productos (6x3) */
-        .grid-sellers { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:0.6rem; max-height: 480px; overflow-y:auto; padding-right:0.2rem; }
+
+        /* --- ÁREA DE PRODUCTOS CON SCROLL INTERNO --- */
+        .top-sellers { flex: 1; display: flex; flex-direction: column; min-height: 0; margin-bottom: 0.8rem; }
+        .grid-sellers { flex: 1; display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); align-content: start; gap:0.6rem; overflow-y:auto; padding-right:0.2rem; }
         
         .seller-card { background:#ffffff; border:1px solid var(--c-border); border-radius:var(--radius-md); padding: 0; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; position:relative; overflow:hidden; display: flex; flex-direction: column; }
         .seller-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); border-color:#d9b48f; }
@@ -63,10 +76,10 @@
         .seller-name { font-size:0.75rem; font-weight:700; color:var(--c-brown-900); padding: 0.3rem 0.3rem 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .seller-price { font-size:0.85rem; font-weight:800; color:var(--c-accent); padding-bottom:0.4rem; display:block; }
         .seller-rank { position:absolute; top:0.25rem; left:0.3rem; background:linear-gradient(145deg,#f0b429,#e0a020); color:white; font-size:0.6rem; font-weight:800; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.35); z-index: 10; border:1.5px solid rgba(255,255,255,0.8);}
-        .empty-sellers { grid-column:1/-1; text-align:center; color:#a98a6b; padding:1rem; font-style:italic; font-size:0.85rem; }
+        .empty-sellers { grid-column:1/-1; text-align:center; color:#a98a6b; padding:2rem 1rem; font-style:italic; font-size:0.9rem; }
 
         /* BUSCADOR */
-        .search-wrapper { margin-bottom:0.8rem; position:relative; }
+        .search-wrapper { flex-shrink: 0; margin-bottom:0.2rem; position:relative; }
         .search-wrapper > i.fa-search { position:absolute; left:1rem; top:50%; transform:translateY(-50%); color:var(--c-brown-300); font-size:0.9rem; }
         .search-input { width:100%; padding:0.7rem 2.5rem 0.7rem 2.5rem; border-radius:3rem; border:1.5px solid #e2cdb5; background:#fffdf9; font-size:0.9rem; color:#4a2e12; outline:none; transition:0.15s; }
         .search-input:focus { border-color:var(--c-accent); box-shadow:0 0 0 4px rgba(181,101,30,0.12); }
@@ -74,12 +87,12 @@
         .search-clear.visible { display:block; }
         .search-clear:hover { color:var(--c-accent); }
 
-        /* --- RESULTADOS --- */
-        .results-container { display: none; animation: fadeIn 0.3s ease; }
+        /* --- RESULTADOS DE BÚSQUEDA --- */
+        .results-container { display: none; flex: 1; min-height: 0; flex-direction: column; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .results-title { font-size:0.8rem; font-weight:700; color:#8b4e14; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.3rem; }
+        .results-title { flex-shrink: 0; font-size:0.8rem; font-weight:700; color:#8b4e14; text-transform:uppercase; letter-spacing:0.5px; margin:0.5rem 0; display:flex; align-items:center; gap:0.3rem; }
         .results-title i { color:var(--c-accent); }
-        .grid-results { display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:0.8rem; max-height:400px; overflow-y:auto; padding:0.3rem 0.3rem 0.3rem 0; }
+        .grid-results { flex: 1; display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); align-content: start; gap:0.8rem; overflow-y:auto; padding:0.3rem 0.3rem 0.3rem 0; }
         
         .result-card { background:#ffffff; border:1px solid var(--c-border); border-radius:var(--radius-md); padding: 0; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; position:relative; overflow:hidden; display:flex; flex-direction:column; }
         .result-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); border-color:#d9b48f; }
@@ -94,21 +107,24 @@
         .result-price { font-size:0.95rem; font-weight:800; color:white; background:linear-gradient(145deg,var(--c-green),var(--c-green-dark)); padding:0.25rem; border-radius:0.4rem; display:block; width:100%; }
         .result-add { position:absolute; top:0.4rem; right:0.4rem; width:26px; height:26px; border-radius:50%; background:var(--c-accent); color:white; border:2px solid white; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 8px rgba(0,0,0,0.3); opacity:0.92; transition:0.15s; z-index: 10; }
         .result-add:hover { background:var(--c-accent-dark); transform:scale(1.12); opacity:1; }
-        .no-results { text-align:center; color:#a98a6b; padding:1.5rem 1rem; font-style:italic; grid-column:1/-1; }
+        .no-results { text-align:center; color:#a98a6b; padding:2rem 1rem; font-style:italic; grid-column:1/-1; }
 
-        /* --- TICKETERA --- */
-        .printer-panel { background: linear-gradient(160deg,#3a3a3a 0%,#1f1f1f 100%); border-radius: var(--radius-lg); padding: 0.5rem 0.5rem 0.4rem; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); border: 1px solid #111; display:flex; flex-direction:column; align-items:center; margin-top: 0; position:sticky; top:5.5rem; }
-        .printer-label { width:100%; display:flex; justify-content:space-between; align-items:center; padding: 0.1rem 0.5rem 0.35rem; color:#9a9a9a; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase; }
+        /* --- TICKETERA (100% altura, botones fijos abajo) --- */
+        .printer-panel { flex: 1; display:flex; flex-direction:column; min-height:0; background: linear-gradient(160deg,#3a3a3a 0%,#1f1f1f 100%); border-radius: var(--radius-lg); padding: 0.5rem 0.5rem 0.4rem; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); border: 1px solid #111; }
+        .printer-label { flex-shrink: 0; width:100%; display:flex; justify-content:space-between; align-items:center; padding: 0.1rem 0.5rem 0.35rem; color:#9a9a9a; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase; }
         .printer-label .leds { display:flex; gap:0.3rem; }
         .printer-label .led { width:6px; height:6px; border-radius:50%; }
         .led.green { background:#4ade80; box-shadow:0 0 6px #4ade80; animation:ledPulse 2s infinite; }
         .led.amber { background:#fbbf24; box-shadow:0 0 6px #fbbf24; }
         @keyframes ledPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
         .cart-counter { background:#b5651e; color:#fff; border-radius:20px; padding:0.05rem 0.5rem; font-weight:700; font-size:0.6rem; margin-left:0.4rem; }
-        .ticket-paper { width:100%; background:var(--c-paper); font-family:'Courier New','Consolas',monospace; font-size:0.9rem; color:#1a1a1a; padding: 1rem 0.8rem 1.2rem; position:relative; clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 6px), 97% 100%, 94% calc(100% - 6px), 91% 100%, 88% calc(100% - 6px), 85% 100%, 82% calc(100% - 6px), 79% 100%, 76% calc(100% - 6px), 73% 100%, 70% calc(100% - 6px), 67% 100%, 64% calc(100% - 6px), 61% 100%, 58% calc(100% - 6px), 55% 100%, 52% calc(100% - 6px), 49% 100%, 46% calc(100% - 6px), 43% 100%, 40% calc(100% - 6px), 37% 100%, 34% calc(100% - 6px), 31% 100%, 28% calc(100% - 6px), 25% 100%, 22% calc(100% - 6px), 19% 100%, 16% calc(100% - 6px), 13% 100%, 10% calc(100% - 6px), 7% 100%, 4% calc(100% - 6px), 0% 100%); filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); max-height: 680px; overflow-y: auto; min-height: 500px; }
+        
+        /* El ticket ocupa todo el alto posible */
+        .ticket-paper { flex: 1; min-height: 0; width:100%; background:var(--c-paper); font-family:'Courier New','Consolas',monospace; font-size:0.9rem; color:#1a1a1a; padding: 1rem 0.8rem 1.2rem; position:relative; clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 6px), 97% 100%, 94% calc(100% - 6px), 91% 100%, 88% calc(100% - 6px), 85% 100%, 82% calc(100% - 6px), 79% 100%, 76% calc(100% - 6px), 73% 100%, 70% calc(100% - 6px), 67% 100%, 64% calc(100% - 6px), 61% 100%, 58% calc(100% - 6px), 55% 100%, 52% calc(100% - 6px), 49% 100%, 46% calc(100% - 6px), 43% 100%, 40% calc(100% - 6px), 37% 100%, 34% calc(100% - 6px), 31% 100%, 28% calc(100% - 6px), 25% 100%, 22% calc(100% - 6px), 19% 100%, 16% calc(100% - 6px), 13% 100%, 10% calc(100% - 6px), 7% 100%, 4% calc(100% - 6px), 0% 100%); filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); overflow-y: auto; }
         .ticket-paper::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px); pointer-events:none; }
         .ticket-paper::-webkit-scrollbar { width:5px; }
         .ticket-paper::-webkit-scrollbar-thumb { background:#c9b89a; border-radius:4px; }
+        
         .tk-center { text-align:center; }
         .tk-logo { font-size:1.3rem; font-weight:bold; letter-spacing:1px; margin-bottom:0.1rem; }
         .tk-sub { font-size:0.75rem; color:#555; }
@@ -133,7 +149,9 @@
         .tk-qty-btn.plus:hover { background:var(--c-green); border-color:var(--c-green); }
         .tk-qty-num { min-width:16px; text-align:center; font-weight:bold; font-size:0.8rem; }
         .tk-prod-total { min-width:50px; text-align:right; font-weight:bold; font-size:0.85rem; }
-        .printer-controls { width:100%; margin-top:0.6rem; display:flex; flex-direction:column; gap:0.5rem; }
+        
+        /* Controles fijos abajo */
+        .printer-controls { flex-shrink: 0; width:100%; margin-top:0.6rem; display:flex; flex-direction:column; gap:0.5rem; }
         .doc-selector { display:flex; gap:0.3rem; background:#111; border-radius:0.8rem; padding:0.2rem; }
         .doc-opt { flex:1; text-align:center; padding:0.4rem 0.1rem; border-radius:0.6rem; color:#999; font-size:0.7rem; font-weight:600; cursor:pointer; transition:0.15s; }
         .doc-opt:hover { color:#ccc; }
@@ -171,29 +189,38 @@
         .form-row .form-group { flex:1; }
         .divider { font-size:0.75rem; color:#a98a6b; text-align:center; margin: 0.2rem 0 0.6rem; font-weight:600; }
         .img-preview { width:100%; max-height:140px; object-fit:cover; border-radius:0.6rem; margin-top:0.5rem; border:1px solid var(--c-border-soft); display:none; }
+        
         ::-webkit-scrollbar { width:6px; }
-        ::-webkit-scrollbar-track { background:#f5e8d9; border-radius:10px; }
+        ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:#d9b48f; border-radius:10px; }
+        .grid-results::-webkit-scrollbar-track { background:#f5e8d9; }
+
         @media print {
-            body { background:#fff; padding:0; display:block; }
+            body { background:#fff; padding:0; display:block; overflow:visible; height:auto; }
             .app-container, .modal-overlay, .printer-controls, .printer-label { display:none !important; }
             .main-grid { display:block; }
-            .printer-panel { background:none; border:none; box-shadow:none; padding:0; position:static; }
-            .ticket-paper { clip-path:none; filter:none; max-height:none; min-height:0; overflow:visible; box-shadow:none; }
+            .printer-panel { background:none; border:none; box-shadow:none; padding:0; position:static; height:auto; }
+            .ticket-paper { clip-path:none; filter:none; max-height:none; min-height:0; overflow:visible; box-shadow:none; height:auto; }
             .tk-qty-controls { display:none !important; }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
+        
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-area">
+                <h1><i class="fas fa-bread-slice"></i> Amasador - Panadería <span class="badge-emi">TICKETERA</span></h1>
+                <div class="datetime"><i class="fas fa-clock"></i> <span id="currentDateTime"></span></div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
         <div class="main-grid">
+            
+            <!-- COLUMNA IZQUIERDA: PRODUCTOS -->
             <div class="col-left">
-                <div class="header">
-                    <div class="logo-area">
-                        <h1><i class="fas fa-bread-slice"></i> Amasador - Panadería <span class="badge-emi">TICKETERA</span></h1>
-                        <div class="datetime"><i class="fas fa-clock"></i> <span id="currentDateTime"></span></div>
-                    </div>
-                </div>
                 <div class="card">
                     <div class="card-header">
                         <h2><i class="fas fa-basket-shopping"></i> Punto de venta</h2>
@@ -211,29 +238,35 @@
                         <button class="cat-btn" data-cat="Especiales">Especiales</button>
                     </div>
 
-                    <div class="top-sellers">
-                        <div class="top-sellers-title"><i class="fas fa-fire"></i> <span id="currentCatTitle">Los más vendidos</span> — click para agregar</div>
+                    <!-- ÁREA DE PRODUCTOS (SCROLL INTERNO) -->
+                    <div class="top-sellers" id="topSellersContainer">
                         <div class="grid-sellers" id="topSellersGrid"></div>
                     </div>
 
+                    <!-- ÁREA DE BÚSQUEDA Y RESULTADOS -->
                     <div class="search-wrapper">
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" class="search-input" placeholder="Buscar producto en toda la tienda..." autocomplete="off" aria-label="Buscar producto">
                         <button type="button" class="search-clear" id="searchClear" aria-label="Limpiar búsqueda"><i class="fas fa-times-circle"></i></button>
                     </div>
+                    
                     <div class="results-container" id="resultsContainer">
                         <div class="results-title" id="resultsTitle"><i class="fas fa-search"></i> Resultados</div>
                         <div class="grid-results" id="resultsGrid"></div>
                     </div>
                 </div>
             </div>
+
+            <!-- COLUMNA DERECHA: TICKETERA -->
             <div class="col-right">
                 <div class="printer-panel">
                     <div class="printer-label">
                         <span><i class="fas fa-print"></i> TICKETERA TÉRMICA · 80mm <span class="cart-counter" id="cartCounter">0 ítems</span></span>
                         <div class="leds"><span class="led green"></span><span class="led amber"></span></div>
                     </div>
+                    
                     <div class="ticket-paper" id="ticketPreview"></div>
+                    
                     <div class="printer-controls">
                         <div class="doc-selector" id="docSelector" role="tablist" aria-label="Tipo de documento">
                             <div class="doc-opt" data-type="boleta" role="tab" tabindex="0" aria-selected="false">BOLETA</div>
@@ -247,9 +280,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
+    <!-- MODAL EMITIDO -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div style="font-size:3rem; color:var(--c-green); margin-bottom:0.5rem;"><i class="fas fa-check-circle"></i></div>
@@ -262,6 +297,7 @@
         </div>
     </div>
 
+    <!-- MODAL NUEVO PRODUCTO -->
     <div class="modal-overlay" id="productModalOverlay">
         <div class="modal-content">
             <h3 style="color:#4a2e12; margin-bottom:1rem;"><i class="fas fa-box-open"></i> Nuevo Producto</h3>
@@ -281,7 +317,6 @@
                     </div>
                 </div>
                 
-                <!-- NUEVO CAMPO: CATEGORÍA -->
                 <div class="form-group">
                     <label for="newProdCategory">Categoría</label>
                     <select id="newProdCategory" required>
@@ -328,20 +363,21 @@
         let cart = [];
         let currentDocType = 'ticket';
         let searchFilter = '';
-        let currentCategory = 'Favoritos 🔥'; // Pestaña por defecto
+        let currentCategory = 'Favoritos 🔥';
         let lastTicketHtml = '';       
         let draftDocNum = newDraftNum();
 
         const $ = id => document.getElementById(id);
-        const topSellersGrid = $('topSellersGrid'), resultsContainer = $('resultsContainer'),
-              resultsGrid = $('resultsGrid'), searchInput = $('searchInput'), searchClear = $('searchClear'),
+        const topSellersContainer = $('topSellersContainer'), topSellersGrid = $('topSellersGrid'), 
+              resultsContainer = $('resultsContainer'), resultsGrid = $('resultsGrid'), 
+              searchInput = $('searchInput'), searchClear = $('searchClear'),
               ticketPreview = $('ticketPreview'), clearCartBtn = $('clearCartBtn'), emitBtn = $('emitBtn'),
               modalOverlay = $('modalOverlay'), closeModalBtn = $('closeModalBtn'), printTicketBtn = $('printTicketBtn'),
               currentDateTimeEl = $('currentDateTime'), cartCounter = $('cartCounter'),
               btnOpenProductModal = $('btnOpenProductModal'), productModalOverlay = $('productModalOverlay'),
               closeProductModalBtn = $('closeProductModalBtn'), productForm = $('productForm'),
               saveProductBtn = $('saveProductBtn'), imgPreview = $('imgPreview'),
-              currentCatTitle = $('currentCatTitle');
+              searchWrapper = document.querySelector('.search-wrapper');
         
         const docOpts = document.querySelectorAll('.doc-opt');
         const catBtns = document.querySelectorAll('.cat-btn');
@@ -399,7 +435,7 @@
                 const data = await res.json();
                 if (data.exito && data.productos) {
                     PRODUCTS = data.productos;
-                    renderTopSellers(); // Renderiza la categoría activa
+                    renderTopSellers();
                     if (searchFilter.trim() !== '') renderResults();
                     renderTicketPreview();
                 } else { throw new Error('Respuesta inválida'); }
@@ -409,17 +445,11 @@
             }
         }
 
-        /* --- LÓGICA DE LAS PESTAÑAS (CATEGORÍAS) --- */
         catBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 catBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentCategory = btn.dataset.cat;
-                
-                // Actualizar título
-                if(currentCategory === 'Favoritos 🔥') currentCatTitle.textContent = 'Los más vendidos';
-                else currentCatTitle.textContent = currentCategory;
-
                 renderTopSellers();
             });
         });
@@ -433,7 +463,6 @@
                 filtered = PRODUCTS.filter(p => p.category === currentCategory).sort((a,b) => a.name.localeCompare(b.name));
             }
 
-            // LIMITAMOS A 18 PRODUCTOS
             const limited = filtered.slice(0, 18); 
             
             topSellersGrid.innerHTML = '';
@@ -445,7 +474,6 @@
             limited.forEach(p=>{
                 const d = document.createElement('div');
                 d.className = 'seller-card';
-                // Si estamos en favoritos mostramos el número de rank, si no, no
                 const rankBadge = currentCategory === 'Favoritos 🔥' ? `<span class="seller-rank">${esc(p.rank)}</span>` : '';
                 
                 d.innerHTML = `${rankBadge}${imgBlock('seller-img-container','seller-img','seller-emoji',p)}<span class="seller-name">${esc(p.name)}</span><span class="seller-price">S/ ${fmt(p.price)}</span>`;
@@ -477,12 +505,27 @@
         searchInput.addEventListener('input',e=>{
             searchFilter = e.target.value;
             searchClear.classList.toggle('visible', searchFilter.length>0);
-            if (searchFilter.trim() === '') { resultsContainer.style.display = 'none'; }
-            else { resultsContainer.style.display = 'block'; renderResults(); }
+            
+            if (searchFilter.trim() === '') { 
+                // Mostrar categorías, ocultar búsqueda
+                resultsContainer.style.display = 'none'; 
+                topSellersContainer.style.display = 'flex';
+                document.getElementById('categoryTabs').style.display = 'flex';
+            } else { 
+                // Ocultar categorías, mostrar búsqueda
+                topSellersContainer.style.display = 'none';
+                document.getElementById('categoryTabs').style.display = 'none';
+                resultsContainer.style.display = 'flex'; 
+                renderResults(); 
+            }
         });
+
         searchClear.addEventListener('click',()=>{
             searchInput.value=''; searchFilter=''; searchClear.classList.remove('visible');
-            resultsContainer.style.display = 'none'; searchInput.focus();
+            resultsContainer.style.display = 'none'; 
+            topSellersContainer.style.display = 'flex';
+            document.getElementById('categoryTabs').style.display = 'flex';
+            searchInput.focus();
         });
 
         function addToCart(id){
@@ -697,7 +740,7 @@
                     sku: $('newProdSku').value.trim() || 'SKU-' + uid.slice(-5).toUpperCase(),
                     top: isTop,
                     rank: maxRank,
-                    category: $('newProdCategory').value, // <-- AQUI ENVIAMOS LA CATEGORIA
+                    category: $('newProdCategory').value,
                     imageBase64: imageBase64,
                     imageName: imageName,
                     imageUrl: enlaceDirecto
