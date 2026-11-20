@@ -58,7 +58,7 @@
 
         .grid-sellers { display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:0.6rem; }
 
-        .seller-card { 
+        .seller-card {
             background:#ffffff; border:1px solid var(--c-border); border-radius:var(--radius-md); padding: 0; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; position:relative; overflow:hidden; display: flex; flex-direction: column;
         }
         .seller-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); border-color:#d9b48f; }
@@ -104,16 +104,16 @@
         .no-results { text-align:center; color:#a98a6b; padding:1.5rem 1rem; font-style:italic; grid-column:1/-1; }
 
         /* --- TICKETERA --- */
-        .printer-panel { 
-            background: linear-gradient(160deg,#3a3a3a 0%,#1f1f1f 100%); 
-            border-radius: var(--radius-lg); 
-            padding: 0.5rem 0.5rem 0.4rem; 
-            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); 
-            border: 1px solid #111; 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-            margin-top: 0; 
+        .printer-panel {
+            background: linear-gradient(160deg,#3a3a3a 0%,#1f1f1f 100%);
+            border-radius: var(--radius-lg);
+            padding: 0.5rem 0.5rem 0.4rem;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+            border: 1px solid #111;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            margin-top: 0;
             position:sticky; top:5.5rem;
         }
         .printer-label { width:100%; display:flex; justify-content:space-between; align-items:center; padding: 0.1rem 0.5rem 0.35rem; color:#9a9a9a; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase; }
@@ -182,6 +182,7 @@
         .btn { border:none; border-radius:3rem; padding:0.8rem 1.2rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.6rem; cursor:pointer; font-size:0.9rem; flex:1; transition:0.15s; }
         .btn-primary { background:linear-gradient(145deg,#9a5417,var(--c-accent-dark)); color:white; box-shadow:0 8px 18px -6px rgba(139,78,20,0.6); }
         .btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 22px -6px rgba(139,78,20,0.7); }
+        .btn-primary:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
         .btn-outline { background:#fffdf9; border:1.5px solid #d9c0a5; color:#8b4e14; }
         .btn-outline:hover { background:#fbeedd; }
         .btn:active { transform:scale(0.97); }
@@ -210,7 +211,6 @@
             .tk-qty-controls { display:none !important; }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -230,55 +230,56 @@
                 </div>
 
                 <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-basket-shopping"></i> Punto de venta</h2>
-                    <button class="btn-add-prod" id="btnOpenProductModal"><i class="fas fa-plus"></i> Nuevo Producto</button>
-                </div>
+                    <div class="card-header">
+                        <h2><i class="fas fa-basket-shopping"></i> Punto de venta</h2>
+                        <button type="button" class="btn-add-prod" id="btnOpenProductModal"><i class="fas fa-plus"></i> Nuevo Producto</button>
+                    </div>
 
-                <div class="top-sellers">
-                    <div class="top-sellers-title"><i class="fas fa-fire"></i> Los más vendidos — click para agregar</div>
-                    <div class="grid-sellers" id="topSellersGrid"></div>
-                </div>
+                    <div class="top-sellers">
+                        <div class="top-sellers-title"><i class="fas fa-fire"></i> Los más vendidos — click para agregar</div>
+                        <div class="grid-sellers" id="topSellersGrid"></div>
+                    </div>
 
-                <div class="search-wrapper">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar producto para agregar..." autocomplete="off" aria-label="Buscar producto">
-                    <button class="search-clear" id="searchClear" aria-label="Limpiar búsqueda"><i class="fas fa-times-circle"></i></button>
-                </div>
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar producto para agregar..." autocomplete="off" aria-label="Buscar producto">
+                        <button type="button" class="search-clear" id="searchClear" aria-label="Limpiar búsqueda"><i class="fas fa-times-circle"></i></button>
+                    </div>
 
-                <div class="results-container" id="resultsContainer">
-                    <div class="results-title" id="resultsTitle"><i class="fas fa-search"></i> Resultados</div>
-                    <div class="grid-results" id="resultsGrid"></div>
+                    <div class="results-container" id="resultsContainer">
+                        <div class="results-title" id="resultsTitle"><i class="fas fa-search"></i> Resultados</div>
+                        <div class="grid-results" id="resultsGrid"></div>
+                    </div>
                 </div>
-            </div>
 
             </div><!-- /.col-left -->
 
-            <!-- COLUMNA DERECHA: ticketera a nivel superior -->
+            <!-- COLUMNA DERECHA: ticketera -->
             <div class="col-right">
-            <div class="printer-panel">
-                <div class="printer-label">
-                    <span><i class="fas fa-print"></i> TICKETERA TÉRMICA · 80mm <span class="cart-counter" id="cartCounter">0 ítems</span></span>
-                    <div class="leds"><span class="led green"></span><span class="led amber"></span></div>
-                </div>
-
-                <div class="ticket-paper" id="ticketPreview"></div>
-
-                <div class="printer-controls">
-                    <div class="doc-selector" id="docSelector" role="tablist">
-                        <div class="doc-opt" data-type="boleta" role="tab" tabindex="0">BOLETA</div>
-                        <div class="doc-opt" data-type="factura" role="tab" tabindex="0">FACTURA</div>
-                        <div class="doc-opt active" data-type="ticket" role="tab" tabindex="0">TICKET</div>
+                <div class="printer-panel">
+                    <div class="printer-label">
+                        <span><i class="fas fa-print"></i> TICKETERA TÉRMICA · 80mm <span class="cart-counter" id="cartCounter">0 ítems</span></span>
+                        <div class="leds"><span class="led green"></span><span class="led amber"></span></div>
                     </div>
-                    <div class="printer-buttons">
-                        <button class="p-btn p-btn-clear" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Limpiar</button>
-                        <button class="p-btn p-btn-emit" id="emitBtn"><i class="fas fa-print"></i> Emitir</button>
-                    </div>
-                </div>
+
+                    <div class="ticket-paper" id="ticketPreview"></div>
+
+                    <div class="printer-controls">
+                        <div class="doc-selector" id="docSelector" role="tablist" aria-label="Tipo de documento">
+                            <div class="doc-opt" data-type="boleta" role="tab" tabindex="0" aria-selected="false">BOLETA</div>
+                            <div class="doc-opt" data-type="factura" role="tab" tabindex="0" aria-selected="false">FACTURA</div>
+                            <div class="doc-opt active" data-type="ticket" role="tab" tabindex="0" aria-selected="true">TICKET</div>
+                        </div>
+                        <div class="printer-buttons">
+                            <button type="button" class="p-btn p-btn-clear" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Limpiar</button>
+                            <button type="button" class="p-btn p-btn-emit" id="emitBtn"><i class="fas fa-print"></i> Emitir</button>
+                        </div>
+                    </div><!-- /.printer-controls -->
+                </div><!-- /.printer-panel -->
             </div><!-- /.col-right -->
 
-        </div>
-    </div>
+        </div><!-- /.main-grid -->
+    </div><!-- /.app-container -->
 
     <!-- MODAL EMITIDO -->
     <div class="modal-overlay" id="modalOverlay">
@@ -287,8 +288,8 @@
             <h3 style="color:#4a2e12;" id="modalTitle">¡Ticket emitido!</h3>
             <p style="color:#7a4e22; font-size:0.85rem; margin-top:0.3rem;" id="modalMessage">El documento se generó correctamente.</p>
             <div class="modal-actions">
-                <button class="btn btn-outline" id="closeModalBtn">Cerrar</button>
-                <button class="btn btn-primary" id="printTicketBtn"><i class="fas fa-print"></i> Imprimir</button>
+                <button type="button" class="btn btn-outline" id="closeModalBtn">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="printTicketBtn"><i class="fas fa-print"></i> Imprimir</button>
             </div>
         </div>
     </div>
@@ -316,7 +317,7 @@
                 <div class="divider">--- ELIGE UNA OPCIÓN PARA LA FOTO ---</div>
 
                 <div class="form-group">
-                    <label for="newProdImageFile">Opción 1: Subir foto desde tu PC</label>
+                    <label for="newProdImageFile">Opción 1: Subir foto desde tu PC (máx. 2 MB)</label>
                     <input type="file" id="newProdImageFile" accept="image/png, image/jpeg, image/webp">
                     <img id="imgPreview" class="img-preview" alt="Vista previa">
                 </div>
@@ -343,37 +344,63 @@
     <script>
     (function(){
         const URL_WORKER = 'https://api-panaderia.lyradios.workers.dev/';
+        const IGV_RATE = 0.18;
+        // false = el IGV se SUMA al precio (como lo tenías).
+        // true  = los precios YA incluyen IGV (lo habitual en Perú): total = suma de precios.
+        const PRICES_INCLUDE_IGV = true;
+        const MAX_IMG_BYTES = 2 * 1024 * 1024; // 2 MB
 
-        let PRODUCTS = []; 
+        let PRODUCTS = [];
         let cart = [];
         let currentDocType = 'ticket';
         let searchFilter = '';
+        let lastTicketHtml = '';       // copia fija del último ticket emitido (para imprimir)
+        let draftDocNum = newDraftNum(); // número provisional de la vista previa
 
-        const topSellersGrid = document.getElementById('topSellersGrid');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const resultsGrid = document.getElementById('resultsGrid');
-        const resultsTitle = document.getElementById('resultsTitle');
-        const searchInput = document.getElementById('searchInput');
-        const searchClear = document.getElementById('searchClear');
-        const ticketPreview = document.getElementById('ticketPreview');
+        const $ = id => document.getElementById(id);
+        const topSellersGrid = $('topSellersGrid'), resultsContainer = $('resultsContainer'),
+              resultsGrid = $('resultsGrid'), searchInput = $('searchInput'), searchClear = $('searchClear'),
+              ticketPreview = $('ticketPreview'), clearCartBtn = $('clearCartBtn'), emitBtn = $('emitBtn'),
+              modalOverlay = $('modalOverlay'), closeModalBtn = $('closeModalBtn'), printTicketBtn = $('printTicketBtn'),
+              currentDateTimeEl = $('currentDateTime'), cartCounter = $('cartCounter'),
+              btnOpenProductModal = $('btnOpenProductModal'), productModalOverlay = $('productModalOverlay'),
+              closeProductModalBtn = $('closeProductModalBtn'), productForm = $('productForm'),
+              saveProductBtn = $('saveProductBtn'), imgPreview = $('imgPreview');
         const docOpts = document.querySelectorAll('.doc-opt');
-        const clearCartBtn = document.getElementById('clearCartBtn');
-        const emitBtn = document.getElementById('emitBtn');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const printTicketBtn = document.getElementById('printTicketBtn');
-        const currentDateTimeEl = document.getElementById('currentDateTime');
-        const cartCounter = document.getElementById('cartCounter');
 
-        const btnOpenProductModal = document.getElementById('btnOpenProductModal');
-        const productModalOverlay = document.getElementById('productModalOverlay');
-        const closeProductModalBtn = document.getElementById('closeProductModalBtn');
-        const productForm = document.getElementById('productForm');
-        const saveProductBtn = document.getElementById('saveProductBtn');
-        const imgPreview = document.getElementById('imgPreview');
+        const fmt = n => Number(n).toFixed(2);
 
-        const fmt = n => n.toFixed(2);
+        /* ---------- Seguridad: escapar texto y validar URLs ---------- */
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+            ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const safeUrl = u => /^(https?:\/\/|data:image\/)/i.test(String(u || '')) ? u : '';
 
+        function imgBlock(containerClass, imgClass, emojiClass, p){
+            const src = safeUrl(p.image);
+            return src
+                ? `<div class="${containerClass}"><img src="${esc(src)}" class="${imgClass}" alt="${esc(p.name)}" loading="lazy" data-emoji="${emojiClass}"></div>`
+                : `<div class="${containerClass}"><span class="${emojiClass}">📦</span></div>`;
+        }
+        // Si una imagen falla, mostrar el emoji 📦
+        function attachImgFallback(root){
+            root.querySelectorAll('img[data-emoji]').forEach(img=>{
+                img.addEventListener('error', ()=>{
+                    const span = document.createElement('span');
+                    span.className = img.dataset.emoji;
+                    span.textContent = '📦';
+                    img.replaceWith(span);
+                }, { once:true });
+            });
+        }
+
+        /* ---------- Número provisional (estable mientras se arma el carrito) ---------- */
+        function newDraftNum(){
+            const d = new Date();
+            return 'P' + d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0')
+                 + '-' + String(Math.floor(Math.random()*9999)).padStart(4,'0');
+        }
+
+        /* ---------- Fecha/hora ---------- */
         function updateDateTime(){
             currentDateTimeEl.textContent = new Date().toLocaleString('es-PE', { dateStyle:'medium', timeStyle:'medium' });
         }
@@ -384,30 +411,34 @@
             cartCounter.textContent = count + (count === 1 ? ' ítem' : ' ítems');
         }
 
+        /* ---------- Totales ---------- */
         function calculateTotals(){
-            let subtotal = 0;
-            cart.forEach(i=>{ const p = PRODUCTS.find(x=>x.id===i.productId); if(p) subtotal += p.price*i.quantity; });
-            const igv = subtotal*0.18;
-            return { subtotal, igv, total: subtotal+igv };
+            let sum = 0;
+            cart.forEach(i=>{ const p = PRODUCTS.find(x=>x.id===i.productId); if(p) sum += p.price*i.quantity; });
+            if (PRICES_INCLUDE_IGV) {
+                const total = sum, subtotal = total/(1+IGV_RATE);
+                return { subtotal, igv: total-subtotal, total };
+            }
+            const igv = sum*IGV_RATE;
+            return { subtotal: sum, igv, total: sum+igv };
         }
 
+        /* ---------- Carga de productos ---------- */
         async function cargarProductos() {
             try {
                 const res = await fetch(`${URL_WORKER}?accion=obtenerProductos`);
                 const data = await res.json();
-
                 if (data.exito && data.productos) {
                     PRODUCTS = data.productos;
                     renderTopSellers();
-                    if (searchFilter.trim() !== '') {
-                        renderResults();
-                    }
+                    if (searchFilter.trim() !== '') renderResults();
                     renderTicketPreview();
                 } else {
-                    console.error('Error al cargar productos');
+                    throw new Error('Respuesta inválida');
                 }
             } catch (error) {
                 console.error(error);
+                topSellersGrid.innerHTML = '<div class="empty-sellers"><i class="fas fa-triangle-exclamation"></i> No se pudieron cargar los productos. Revisa tu conexión y recarga la página.</div>';
             }
         }
 
@@ -421,60 +452,48 @@
             top.forEach(p=>{
                 const d = document.createElement('div');
                 d.className = 'seller-card';
-
-                const imgHtml = p.image 
-                    ? `<div class="seller-img-container"><img src="${p.image}" class="seller-img" alt="${p.name}" loading="lazy"></div>` 
-                    : `<div class="seller-img-container"><span class="seller-emoji">📦</span></div>`;
-
                 d.innerHTML = `
-                    <span class="seller-rank">${p.rank}</span>
-                    ${imgHtml}
-                    <span class="seller-name">${p.name}</span>
-                    <span class="seller-price">S/ ${fmt(p.price)}</span>
-                `;
+                    <span class="seller-rank">${esc(p.rank)}</span>
+                    ${imgBlock('seller-img-container','seller-img','seller-emoji',p)}
+                    <span class="seller-name">${esc(p.name)}</span>
+                    <span class="seller-price">S/ ${fmt(p.price)}</span>`;
                 d.addEventListener('click',()=>addToCart(p.id));
                 topSellersGrid.appendChild(d);
             });
+            attachImgFallback(topSellersGrid);
         }
 
         function renderResults(){
             const f = searchFilter.trim().toLowerCase();
-            const filtered = PRODUCTS.filter(p=> !f || p.name.toLowerCase().includes(f) || p.sku.toLowerCase().includes(f));
+            const filtered = PRODUCTS.filter(p=> !f || String(p.name).toLowerCase().includes(f) || String(p.sku).toLowerCase().includes(f));
 
             if(filtered.length === 0){
-                resultsGrid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i> Sin resultados para "<strong>${searchFilter}</strong>"</div>`;
+                resultsGrid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i> Sin resultados para "<strong>${esc(searchFilter)}</strong>"</div>`;
                 return;
             }
-
             resultsGrid.innerHTML = '';
             filtered.forEach(p=>{
                 const d = document.createElement('div');
                 d.className = 'result-card';
-
-                const imgHtml = p.image 
-                    ? `<div class="result-img-container"><img src="${p.image}" class="result-img" alt="${p.name}" loading="lazy"></div>` 
-                    : `<div class="result-img-container"><span class="result-emoji">📦</span></div>`;
-
                 d.innerHTML = `
-                    <button class="result-add" data-id="${p.id}" title="Agregar" aria-label="Agregar ${p.name}"><i class="fas fa-plus"></i></button>
-                    ${imgHtml}
+                    <button type="button" class="result-add" title="Agregar" aria-label="Agregar ${esc(p.name)}"><i class="fas fa-plus"></i></button>
+                    ${imgBlock('result-img-container','result-img','result-emoji',p)}
                     <div class="result-info">
                         <div>
-                            <div class="result-name">${p.name}</div>
-                            <div class="result-sku">${p.sku}</div>
+                            <div class="result-name">${esc(p.name)}</div>
+                            <div class="result-sku">${esc(p.sku)}</div>
                         </div>
                         <div class="result-price">S/ ${fmt(p.price)}</div>
-                    </div>
-                `;
+                    </div>`;
                 d.addEventListener('click', ()=>addToCart(p.id));
                 resultsGrid.appendChild(d);
             });
+            attachImgFallback(resultsGrid);
         }
 
         searchInput.addEventListener('input',e=>{
             searchFilter = e.target.value;
             searchClear.classList.toggle('visible', searchFilter.length>0);
-
             if (searchFilter.trim() === '') {
                 resultsContainer.style.display = 'none';
             } else {
@@ -482,38 +501,34 @@
                 renderResults();
             }
         });
-
         searchClear.addEventListener('click',()=>{
-            searchInput.value=''; 
-            searchFilter=''; 
-            searchClear.classList.remove('visible'); 
+            searchInput.value=''; searchFilter='';
+            searchClear.classList.remove('visible');
             resultsContainer.style.display = 'none';
             searchInput.focus();
         });
 
+        /* ---------- Carrito ---------- */
         function addToCart(id){
             const item = cart.find(i=>i.productId===id);
-            if(item) item.quantity++;
-            else cart.push({ productId:id, quantity:1 });
+            if(item) item.quantity++; else cart.push({ productId:id, quantity:1 });
             renderTicketPreview();
         }
         function changeQuantity(id, delta){
             const item = cart.find(i=>i.productId===id);
             if(!item) return;
             item.quantity += delta;
-            if(item.quantity <= 0){
-                cart = cart.filter(i=>i.productId!==id);
-            }
+            if(item.quantity <= 0) cart = cart.filter(i=>i.productId!==id);
             renderTicketPreview();
         }
 
-        function renderTicketPreview(){
-            updateCartCounter();
-            const {subtotal, igv, total} = calculateTotals();
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('es-PE', {day:'2-digit', month:'2-digit', year:'numeric'});
-            const timeStr = now.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit'});
-            const docNum = 'P'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9999)).padStart(4,'0');
+        /* ---------- Construcción del ticket ----------
+           interactive=true  -> vista previa con botones +/-
+           interactive=false -> copia fija para imprimir (sin botones)   */
+        function buildTicketHtml({ docNum, date, interactive }){
+            const { subtotal, igv, total } = calculateTotals();
+            const dateStr = date.toLocaleDateString('es-PE', {day:'2-digit', month:'2-digit', year:'numeric'});
+            const timeStr = date.toLocaleTimeString('es-PE', {hour:'2-digit', minute:'2-digit'});
 
             let title='', sub='';
             if(currentDocType==='boleta'){ title='BOLETA ELECTRÓNICA'; sub='RUC: 10460148729'; }
@@ -530,17 +545,20 @@
                 cart.forEach(i=>{
                     const p = PRODUCTS.find(x=>x.id===i.productId);
                     if(!p) return;
+                    const controls = interactive
+                        ? `<div class="tk-qty-controls">
+                                <button type="button" class="tk-qty-btn minus" data-id="${esc(p.id)}" data-delta="-1" title="Quitar uno" aria-label="Quitar uno"><i class="fas fa-minus" style="font-size:0.55rem;"></i></button>
+                                <span class="tk-qty-num">${i.quantity}</span>
+                                <button type="button" class="tk-qty-btn plus" data-id="${esc(p.id)}" data-delta="1" title="Agregar uno" aria-label="Agregar uno"><i class="fas fa-plus" style="font-size:0.55rem;"></i></button>
+                           </div>`
+                        : `<div class="tk-qty-controls" style="display:flex;"><span class="tk-qty-num">x${i.quantity}</span></div>`;
                     itemsHtml += `
                         <div class="tk-product-line">
                             <div class="tk-prod-info">
-                                <div class="tk-prod-name">${p.name}</div>
+                                <div class="tk-prod-name">${esc(p.name)}</div>
                                 <div class="tk-prod-meta">${fmt(p.price)} c/u</div>
                             </div>
-                            <div class="tk-qty-controls">
-                                <button class="tk-qty-btn minus" data-id="${p.id}" data-delta="-1" title="Quitar uno" aria-label="Quitar uno"><i class="fas fa-minus" style="font-size:0.55rem;"></i></button>
-                                <span class="tk-qty-num">${i.quantity}</span>
-                                <button class="tk-qty-btn plus" data-id="${p.id}" data-delta="1" title="Agregar uno" aria-label="Agregar uno"><i class="fas fa-plus" style="font-size:0.55rem;"></i></button>
-                            </div>
+                            ${controls}
                             <div class="tk-prod-total">${fmt(p.price*i.quantity)}</div>
                         </div>`;
                 });
@@ -549,16 +567,16 @@
             let barcodeHtml = '';
             if(cart.length > 0){
                 let bars = '';
-                const seed = docNum.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+                const seed = String(docNum).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
                 for(let k=0;k<50;k++){
                     const h = 10 + ((seed * (k+3)) % 15);
                     const w = ((seed * (k+7)) % 2) + 1;
                     bars += `<span style="height:${h}px; width:${w}px;"></span>`;
                 }
-                barcodeHtml = `<div class="tk-barcode">${bars}</div><div class="tk-center tk-small" style="margin-top:0.1rem; letter-spacing:1px; font-size:0.6rem;">${docNum}</div>`;
+                barcodeHtml = `<div class="tk-barcode">${bars}</div><div class="tk-center tk-small" style="margin-top:0.1rem; letter-spacing:1px; font-size:0.6rem;">${esc(docNum)}</div>`;
             }
 
-            ticketPreview.innerHTML = `
+            return `
                 <div class="tk-center">
                     <div class="tk-logo">AMASADOR - PANADERÍA</div>
                     <div class="tk-sub">RUC: 10460148729</div>
@@ -568,7 +586,7 @@
                 <div class="tk-divider"></div>
                 <div class="tk-doc-type">${title}</div>
                 <div class="tk-row tk-small"><span>FECHA:</span><span>${dateStr} ${timeStr}</span></div>
-                <div class="tk-row tk-small"><span>N° DOC:</span><span>${docNum}</span></div>
+                <div class="tk-row tk-small"><span>N° DOC:</span><span>${esc(docNum)}</span></div>
                 <div class="tk-row tk-small"><span>CAJA:</span><span>01</span></div>
                 <div class="tk-row tk-small"><span>CAJERO:</span><span>VENDEDOR 01</span></div>
                 <div class="tk-divider"></div>
@@ -588,23 +606,26 @@
                 ${barcodeHtml}
                 <div class="tk-center tk-small" style="margin-top:0.2rem; color:#999; font-size:0.6rem;">
                     *** FIN DEL DOCUMENTO ***
-                </div>
-            `;
+                </div>`;
+        }
 
+        function renderTicketPreview(){
+            updateCartCounter();
+            ticketPreview.innerHTML = buildTicketHtml({ docNum: draftDocNum, date: new Date(), interactive: true });
             ticketPreview.querySelectorAll('.tk-qty-btn').forEach(btn=>{
                 btn.addEventListener('click',e=>{
                     e.stopPropagation();
-                    const id = btn.dataset.id;
-                    const delta = parseInt(btn.dataset.delta,10);
-                    changeQuantity(id, delta);
+                    changeQuantity(btn.dataset.id, parseInt(btn.dataset.delta,10));
                 });
             });
         }
 
+        /* ---------- Tipo de documento ---------- */
         docOpts.forEach(o=>{
             o.addEventListener('click',()=>{
-                docOpts.forEach(x=>x.classList.remove('active'));
+                docOpts.forEach(x=>{ x.classList.remove('active'); x.setAttribute('aria-selected','false'); });
                 o.classList.add('active');
+                o.setAttribute('aria-selected','true');
                 currentDocType = o.dataset.type;
                 renderTicketPreview();
             });
@@ -616,9 +637,11 @@
         clearCartBtn.addEventListener('click',()=>{
             if(cart.length === 0) return;
             cart = [];
+            draftDocNum = newDraftNum();
             renderTicketPreview();
         });
 
+        /* ---------- Emitir venta ---------- */
         emitBtn.addEventListener('click', async () => {
             if (cart.length === 0) {
                 alert('Agrega al menos un producto antes de emitir.');
@@ -652,10 +675,19 @@
                 const resultado = await respuesta.json();
 
                 if (resultado.exito) {
-                    document.getElementById('modalTitle').textContent = '¡Ticket ' + resultado.numTicket + ' emitido!';
-                    document.getElementById('modalMessage').textContent = 'Guardado el ' + resultado.fecha;
+                    // 1) Guardar copia fija del ticket ANTES de limpiar el carrito,
+                    //    usando el número que devolvió el servidor.
+                    const numFinal = resultado.numTicket || draftDocNum;
+                    lastTicketHtml = buildTicketHtml({ docNum: numFinal, date: new Date(), interactive: false });
+
+                    $('modalTitle').textContent = '¡Ticket ' + numFinal + ' emitido!';
+                    $('modalMessage').textContent = 'Guardado el ' + (resultado.fecha || new Date().toLocaleString('es-PE'));
+                    printTicketBtn.disabled = false;
                     modalOverlay.classList.add('active');
+
+                    // 2) Ahora sí, limpiar
                     cart = [];
+                    draftDocNum = newDraftNum();
                     renderTicketPreview();
                 } else {
                     alert('Error al emitir: ' + (resultado.error || 'Desconocido'));
@@ -672,11 +704,14 @@
         closeModalBtn.addEventListener('click',closeModal);
         modalOverlay.addEventListener('click',e=>{ if(e.target===modalOverlay) closeModal(); });
 
+        /* ---------- Imprimir el ticket emitido ---------- */
         printTicketBtn.addEventListener('click',()=>{
+            if(!lastTicketHtml){ alert('No hay un ticket emitido para imprimir.'); return; }
             const w = window.open('','_blank','height=750,width=420');
+            if(!w){ alert('El navegador bloqueó la ventana de impresión. Permite las ventanas emergentes para este sitio.'); return; }
             const styles = `
                 <style>
-                    body{font-family:'Courier New',monospace;padding:0.5rem;max-width:300px;margin:0 auto;font-size:13px;}
+                    body{font-family:'Courier New',monospace;padding:0.5rem;max-width:300px;margin:0 auto;font-size:13px;color:#1a1a1a;}
                     .tk-center{text-align:center;}
                     .tk-logo{font-size:18px;font-weight:bold;letter-spacing:1px;}
                     .tk-sub{font-size:11px;color:#555;}
@@ -684,18 +719,18 @@
                     .tk-row{display:flex;justify-content:space-between;padding:2px 0;font-size:13px;}
                     .tk-row.total{font-size:16px;font-weight:bold;border-top:2px solid #222;border-bottom:2px solid #222;padding:4px 0;margin-top:4px;}
                     .tk-small{font-size:11px;color:#444;}
-                    .tk-doc-type{text-align:center;font-weight:bold;font-size:14px;background:#1a1a1a;color:#fdfcf7;padding:3px 0;letter-spacing:2px;margin-bottom:4px;}
+                    .tk-doc-type{text-align:center;font-weight:bold;font-size:14px;background:#1a1a1a;color:#fdfcf7;padding:3px 0;letter-spacing:2px;margin-bottom:4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
                     .tk-barcode{display:flex;justify-content:center;gap:1px;margin-top:8px;height:30px;align-items:flex-end;}
-                    .tk-barcode span{display:inline-block;background:#1a1a1a;}
+                    .tk-barcode span{display:inline-block;background:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
                     .tk-items-empty{text-align:center;color:#999;font-style:italic;padding:15px 0;font-size:12px;}
                     .tk-product-line{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px dotted #ccc;}
                     .tk-prod-info{flex:1;}
                     .tk-prod-name{font-weight:600;font-size:13px;}
                     .tk-prod-meta{font-size:11px;color:#666;}
-                    .tk-qty-controls{display:none;}
+                    .tk-qty-num{font-weight:bold;font-size:12px;}
                     .tk-prod-total{font-weight:bold;font-size:13px;}
                 </style>`;
-            w.document.write(`<html><head><title>Imprimir ticket</title>${styles}</head><body>${ticketPreview.innerHTML}<script>window.onload=function(){window.print();}<\/script></body></html>`);
+            w.document.write(`<html><head><meta charset="UTF-8"><title>Imprimir ticket</title>${styles}</head><body>${lastTicketHtml}<script>window.onload=function(){window.print();}<\/script></body></html>`);
             w.document.close();
         });
 
@@ -704,27 +739,31 @@
             productForm.reset();
             imgPreview.style.display = 'none';
             productModalOverlay.classList.add('active');
-            document.getElementById('newProdName').focus();
+            $('newProdName').focus();
         });
 
         function closeProductModal() { productModalOverlay.classList.remove('active'); }
         closeProductModalBtn.addEventListener('click', closeProductModal);
         productModalOverlay.addEventListener('click', e => { if (e.target === productModalOverlay) closeProductModal(); });
 
-        // Vista previa de imagen seleccionada
-        document.getElementById('newProdImageFile').addEventListener('change', e => {
+        // Vista previa de imagen seleccionada (con validación de tamaño)
+        $('newProdImageFile').addEventListener('change', e => {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = ev => { imgPreview.src = ev.target.result; imgPreview.style.display = 'block'; };
-                reader.readAsDataURL(file);
-                document.getElementById('newProdImageUrl').value = '';
-            } else {
+            if (!file) { imgPreview.style.display = 'none'; return; }
+            if (file.size > MAX_IMG_BYTES) {
+                alert('La imagen pesa más de 2 MB. Elige una más liviana.');
+                e.target.value = '';
                 imgPreview.style.display = 'none';
+                return;
             }
+            const reader = new FileReader();
+            reader.onload = ev => { imgPreview.src = ev.target.result; imgPreview.style.display = 'block'; };
+            reader.onerror = () => { alert('No se pudo leer la imagen.'); imgPreview.style.display = 'none'; };
+            reader.readAsDataURL(file);
+            $('newProdImageUrl').value = '';
         });
 
-        // Cerrar modales con tecla ESC
+        // Cerrar modales con ESC
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 if (productModalOverlay.classList.contains('active')) closeProductModal();
@@ -735,70 +774,64 @@
         productForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const fileInput = document.getElementById('newProdImageFile');
-            const urlInput = document.getElementById('newProdImageUrl');
+            const file = $('newProdImageFile').files[0];
+            const imageUrlText = $('newProdImageUrl').value.trim();
 
-            const file = fileInput.files[0];
-            const imageUrlText = urlInput.value.trim();
-
-            let imageBase64 = null;
-            let imageName = null;
-            let enlaceDirecto = null;
-
-            if (file) {
-                imageBase64 = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = error => reject(error);
-                    reader.readAsDataURL(file);
-                });
-                imageName = Date.now() + '-' + file.name.replace(/\s+/g, '-');
-            } 
-            else if (imageUrlText) {
-                enlaceDirecto = imageUrlText;
-            }
-
-            const nuevoProd = {
-                accion: 'crearProducto',
-                id: 'P' + Date.now().toString().slice(-6),
-                name: document.getElementById('newProdName').value,
-                price: parseFloat(document.getElementById('newProdPrice').value),
-                sku: document.getElementById('newProdSku').value || 'SKU-' + Date.now().toString().slice(-4),
-                top: document.getElementById('newProdTop').value === 'SI',
-                rank: 99,
-                imageBase64: imageBase64,
-                imageName: imageName,
-                imageUrl: enlaceDirecto
-            };
+            let imageBase64 = null, imageName = null, enlaceDirecto = null;
 
             const textoOriginal = saveProductBtn.innerHTML;
             saveProductBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
             saveProductBtn.disabled = true;
+            const restoreBtn = () => { saveProductBtn.innerHTML = textoOriginal; saveProductBtn.disabled = false; };
 
             try {
+                if (file) {
+                    if (file.size > MAX_IMG_BYTES) throw new Error('La imagen pesa más de 2 MB.');
+                    imageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+                        reader.readAsDataURL(file);
+                    });
+                    imageName = Date.now() + '-' + file.name.replace(/\s+/g, '-');
+                } else if (imageUrlText) {
+                    if (!/^https?:\/\//i.test(imageUrlText)) throw new Error('El enlace de imagen debe empezar con http:// o https://');
+                    enlaceDirecto = imageUrlText;
+                }
+
+                const uid = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+                const nuevoProd = {
+                    accion: 'crearProducto',
+                    id: 'P' + uid,
+                    name: $('newProdName').value.trim(),
+                    price: parseFloat($('newProdPrice').value),
+                    sku: $('newProdSku').value.trim() || 'SKU-' + uid.slice(-5).toUpperCase(),
+                    top: $('newProdTop').value === 'SI',
+                    rank: 99,
+                    imageBase64: imageBase64,
+                    imageName: imageName,
+                    imageUrl: enlaceDirecto
+                };
+
                 const respuesta = await fetch(URL_WORKER, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(nuevoProd)
                 });
-
                 const resultado = await respuesta.json();
 
                 if (resultado.exito) {
                     alert('¡Producto guardado exitosamente!');
                     closeProductModal();
-                    saveProductBtn.innerHTML = textoOriginal;
-                    saveProductBtn.disabled = false;
-                    cargarProductos().catch(e => console.log("Error al recargar:", e));
+                    restoreBtn();
+                    cargarProductos().catch(err => console.log('Error al recargar:', err));
                 } else {
                     alert('Error al guardar: ' + (resultado.error || 'Desconocido'));
-                    saveProductBtn.innerHTML = textoOriginal;
-                    saveProductBtn.disabled = false;
+                    restoreBtn();
                 }
             } catch (error) {
-                alert('Error de conexión: ' + error.message);
-                saveProductBtn.innerHTML = textoOriginal;
-                saveProductBtn.disabled = false;
+                alert('Error: ' + error.message);
+                restoreBtn();
             }
         });
 
