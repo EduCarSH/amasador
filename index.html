@@ -938,7 +938,9 @@
                 const resultado = await respuesta.json();
 
                 if (resultado.exito) {
-                    alert('¡Producto guardado exitosamente!');
+                    alert(resultado.advertencia
+                        ? '⚠️ El producto se guardó, pero: ' + resultado.advertencia
+                        : '¡Producto guardado exitosamente!');
                     closeProductModal();
                     restoreBtn();
                     cargarProductos().catch(err => console.log('Error al recargar:', err));
