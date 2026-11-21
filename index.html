@@ -18,13 +18,13 @@
             --radius-lg:1.5rem; --radius-md:1rem;
         }
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Roboto,system-ui,sans-serif; }
-        
+
         /* --- LAYOUT 100VH (Sin scroll general) --- */
         html, body { height: 100%; margin: 0; overflow: hidden; }
         body { background: linear-gradient(145deg,var(--c-bg-1) 0%,var(--c-bg-2) 100%); display:flex; justify-content:center; align-items:center; padding:1rem; }
-        
+
         .app-container { width:100%; max-width:1440px; height: 100%; max-height: 900px; background:rgba(255,250,244,0.85); backdrop-filter:blur(12px); border-radius:2rem; box-shadow:0 25px 50px -12px rgba(90,50,20,0.35); padding:1.5rem 2rem; border:1px solid rgba(255,240,220,0.6); display: flex; flex-direction: column; }
-        
+
         .header { flex-shrink: 0; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:1rem; background:rgba(253,246,236,0.88); backdrop-filter:blur(10px); padding:0.6rem 1rem; border-radius:1.2rem; border:1px solid rgba(232,213,190,0.7); box-shadow:0 8px 20px -12px rgba(90,50,20,0.3); margin-bottom: 1rem; }
         .logo-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
         .logo-area h1 { font-size:1.6rem; font-weight:700; color:var(--c-brown-700); display:flex; align-items:center; gap:0.5rem; }
@@ -32,25 +32,25 @@
         .badge-emi { background:linear-gradient(145deg,var(--c-brown-500),#6e4218); color:#fff4e6; font-size:0.72rem; font-weight:600; padding:0.25rem 0.85rem; border-radius:30px; letter-spacing:1px; box-shadow:0 4px 10px rgba(139,90,43,0.35); }
         .datetime { background:var(--c-cream); padding:0.45rem 1rem; border-radius:2rem; font-weight:600; font-size:0.85rem; color:#7a4e22; box-shadow:0 4px 12px rgba(0,0,0,0.05); border:1px solid var(--c-border); display: flex; align-items: center; gap: 0.45rem; font-variant-numeric:tabular-nums; }
         .datetime i { color:var(--c-accent); }
-        
+
         /* --- MAIN GRID --- */
         .main-grid { display:grid; grid-template-columns: 1.6fr 1fr; gap:1.5rem; flex: 1; min-height: 0; }
         .col-left { display:flex; flex-direction:column; min-height:0; }
         .col-right { display:flex; flex-direction:column; min-height:0; }
-        
-        @media (max-width:900px){ 
-            .main-grid{ grid-template-columns:1fr; } 
-            body{padding:0.6rem;} 
-            .app-container{padding:1rem; height: auto; max-height: none; overflow-y: auto;} 
-            .col-right { margin-top: 1rem; } 
+
+        @media (max-width:900px){
+            .main-grid{ grid-template-columns:1fr; }
+            body{padding:0.6rem;}
+            .app-container{padding:1rem; height: auto; max-height: none; overflow-y: auto;}
+            .col-right { margin-top: 1rem; }
             .ticket-paper { max-height: 500px; }
         }
-        
+
         .card { flex: 1; display: flex; flex-direction: column; min-height: 0; background:rgba(255,252,248,0.95); border-radius:var(--radius-lg); padding:1.2rem 1.2rem 0.8rem; box-shadow:var(--shadow-card); border:1px solid rgba(255,240,225,0.9); }
         .card-header { flex-shrink: 0; display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem; }
         .card-header h2 { font-size:1.2rem; font-weight:600; color:var(--c-brown-700); }
         .card-header h2 i { color:var(--c-accent); margin-right:0.4rem; }
-        
+
         .btn-add-prod { background:linear-gradient(145deg,var(--c-brown-500),#74491f); color:white; border:none; padding:0.45rem 0.95rem; border-radius:2rem; font-size:0.78rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.35rem; transition:0.15s; box-shadow:0 4px 10px rgba(139,90,43,0.35); }
         .btn-add-prod:hover { transform:translateY(-2px); box-shadow:0 8px 16px rgba(139,90,43,0.45); }
         .btn-add-prod:active { transform:scale(0.96); }
@@ -65,7 +65,7 @@
         /* --- ÁREA DE PRODUCTOS CON SCROLL INTERNO --- */
         .top-sellers { flex: 1; display: flex; flex-direction: column; min-height: 0; margin-bottom: 0.8rem; }
         .grid-sellers { flex: 1; display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); align-content: start; gap:0.6rem; overflow-y:auto; padding-right:0.2rem; }
-        
+
         .seller-card { background:#ffffff; border:1px solid var(--c-border); border-radius:var(--radius-md); padding: 0; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; position:relative; overflow:hidden; display: flex; flex-direction: column; }
         .seller-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); border-color:#d9b48f; }
         .seller-card:active { transform:translateY(-2px) scale(0.98); }
@@ -76,6 +76,7 @@
         .seller-name { font-size:0.75rem; font-weight:700; color:var(--c-brown-900); padding: 0.3rem 0.3rem 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .seller-price { font-size:0.85rem; font-weight:800; color:var(--c-accent); padding-bottom:0.4rem; display:block; }
         .seller-rank { position:absolute; top:0.25rem; left:0.3rem; background:linear-gradient(145deg,#f0b429,#e0a020); color:white; font-size:0.6rem; font-weight:800; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.35); z-index: 10; border:1.5px solid rgba(255,255,255,0.8);}
+        .kg-badge { position:absolute; top:0.25rem; right:0.3rem; background:#3a1e10; color:#fff; font-size:0.55rem; font-weight:800; padding:0.1rem 0.35rem; border-radius:0.6rem; z-index:10; letter-spacing:0.5px; }
         .empty-sellers { grid-column:1/-1; text-align:center; color:#a98a6b; padding:2rem 1rem; font-style:italic; font-size:0.9rem; }
 
         /* BUSCADOR */
@@ -93,7 +94,7 @@
         .results-title { flex-shrink: 0; font-size:0.8rem; font-weight:700; color:#8b4e14; text-transform:uppercase; letter-spacing:0.5px; margin:0.5rem 0; display:flex; align-items:center; gap:0.3rem; }
         .results-title i { color:var(--c-accent); }
         .grid-results { flex: 1; display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); align-content: start; gap:0.8rem; overflow-y:auto; padding:0.3rem 0.3rem 0.3rem 0; }
-        
+
         .result-card { background:#ffffff; border:1px solid var(--c-border); border-radius:var(--radius-md); padding: 0; text-align:center; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; position:relative; overflow:hidden; display:flex; flex-direction:column; }
         .result-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); border-color:#d9b48f; }
         .result-card:active { transform:scale(0.98); }
@@ -118,13 +119,12 @@
         .led.amber { background:#fbbf24; box-shadow:0 0 6px #fbbf24; }
         @keyframes ledPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
         .cart-counter { background:#b5651e; color:#fff; border-radius:20px; padding:0.05rem 0.5rem; font-weight:700; font-size:0.6rem; margin-left:0.4rem; }
-        
-        /* El ticket ocupa todo el alto posible */
+
         .ticket-paper { flex: 1; min-height: 0; width:100%; background:var(--c-paper); font-family:'Courier New','Consolas',monospace; font-size:0.9rem; color:#1a1a1a; padding: 1rem 0.8rem 1.2rem; position:relative; clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 6px), 97% 100%, 94% calc(100% - 6px), 91% 100%, 88% calc(100% - 6px), 85% 100%, 82% calc(100% - 6px), 79% 100%, 76% calc(100% - 6px), 73% 100%, 70% calc(100% - 6px), 67% 100%, 64% calc(100% - 6px), 61% 100%, 58% calc(100% - 6px), 55% 100%, 52% calc(100% - 6px), 49% 100%, 46% calc(100% - 6px), 43% 100%, 40% calc(100% - 6px), 37% 100%, 34% calc(100% - 6px), 31% 100%, 28% calc(100% - 6px), 25% 100%, 22% calc(100% - 6px), 19% 100%, 16% calc(100% - 6px), 13% 100%, 10% calc(100% - 6px), 7% 100%, 4% calc(100% - 6px), 0% 100%); filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); overflow-y: auto; }
         .ticket-paper::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px); pointer-events:none; }
         .ticket-paper::-webkit-scrollbar { width:5px; }
         .ticket-paper::-webkit-scrollbar-thumb { background:#c9b89a; border-radius:4px; }
-        
+
         .tk-center { text-align:center; }
         .tk-logo { font-size:1.3rem; font-weight:bold; letter-spacing:1px; margin-bottom:0.1rem; }
         .tk-sub { font-size:0.75rem; color:#555; }
@@ -147,9 +147,10 @@
         .tk-qty-btn:active { transform:scale(0.9); }
         .tk-qty-btn.minus:hover { background:#c24848; border-color:#c24848; }
         .tk-qty-btn.plus:hover { background:var(--c-green); border-color:var(--c-green); }
+        .tk-qty-btn.edit:hover { background:var(--c-accent); border-color:var(--c-accent); }
         .tk-qty-num { min-width:16px; text-align:center; font-weight:bold; font-size:0.8rem; }
         .tk-prod-total { min-width:50px; text-align:right; font-weight:bold; font-size:0.85rem; }
-        
+
         /* Controles fijos abajo */
         .printer-controls { flex-shrink: 0; width:100%; margin-top:0.6rem; display:flex; flex-direction:column; gap:0.5rem; }
         .doc-selector { display:flex; gap:0.3rem; background:#111; border-radius:0.8rem; padding:0.2rem; }
@@ -189,7 +190,18 @@
         .form-row .form-group { flex:1; }
         .divider { font-size:0.75rem; color:#a98a6b; text-align:center; margin: 0.2rem 0 0.6rem; font-weight:600; }
         .img-preview { width:100%; max-height:140px; object-fit:cover; border-radius:0.6rem; margin-top:0.5rem; border:1px solid var(--c-border-soft); display:none; }
-        
+
+        /* --- MODAL DE PESO --- */
+        .weight-sub { color:#7a4e22; font-size:0.85rem; margin-top:0.2rem; font-weight:600; }
+        .quick-weights { display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem; margin:1rem 0 0.8rem; }
+        .quick-btn { background:#fff; border:1.5px solid var(--c-border); color:var(--c-brown-700); padding:0.7rem 0; border-radius:0.8rem; font-weight:700; font-size:0.85rem; cursor:pointer; transition:0.15s; }
+        .quick-btn:hover { background:var(--c-accent); color:#fff; border-color:var(--c-accent); }
+        .quick-btn:active { transform:scale(0.95); }
+        .mode-toggle { display:flex; gap:0.3rem; background:#f3e6d5; border-radius:2rem; padding:0.2rem; margin-bottom:0.8rem; }
+        .mode-btn { flex:1; border:none; background:transparent; padding:0.5rem; border-radius:2rem; font-size:0.8rem; font-weight:600; color:var(--c-brown-700); cursor:pointer; transition:0.15s; }
+        .mode-btn.active { background:var(--c-accent); color:#fff; box-shadow:0 4px 10px rgba(181,101,30,0.3); }
+        .weight-preview { margin-top:0.4rem; font-weight:700; color:var(--c-green-dark); font-size:1rem; min-height:1.5rem; }
+
         ::-webkit-scrollbar { width:6px; }
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:#d9b48f; border-radius:10px; }
@@ -207,7 +219,7 @@
 </head>
 <body>
     <div class="app-container">
-        
+
         <!-- HEADER -->
         <div class="header">
             <div class="logo-area">
@@ -218,7 +230,7 @@
 
         <!-- MAIN GRID -->
         <div class="main-grid">
-            
+
             <!-- COLUMNA IZQUIERDA: PRODUCTOS -->
             <div class="col-left">
                 <div class="card">
@@ -229,13 +241,13 @@
 
                     <!-- PESTAÑAS DE CATEGORÍA -->
                     <div class="category-tabs" id="categoryTabs">
-                        <button class="cat-btn active" data-cat="Favoritos 🔥">Favoritos 🔥</button>
-                        <button class="cat-btn" data-cat="Panes">Panes</button>
-                        <button class="cat-btn" data-cat="Embutidos">Embutidos</button>
-                        <button class="cat-btn" data-cat="Pastelería">Pastelería</button>
-                        <button class="cat-btn" data-cat="Salados">Salados</button>
-                        <button class="cat-btn" data-cat="Bebidas">Bebidas</button>
-                        <button class="cat-btn" data-cat="Especiales">Especiales</button>
+                        <button type="button" class="cat-btn active" data-cat="Favoritos 🔥">Favoritos 🔥</button>
+                        <button type="button" class="cat-btn" data-cat="Panes">Panes</button>
+                        <button type="button" class="cat-btn" data-cat="Embutidos">Embutidos</button>
+                        <button type="button" class="cat-btn" data-cat="Pastelería">Pastelería</button>
+                        <button type="button" class="cat-btn" data-cat="Salados">Salados</button>
+                        <button type="button" class="cat-btn" data-cat="Bebidas">Bebidas</button>
+                        <button type="button" class="cat-btn" data-cat="Especiales">Especiales</button>
                     </div>
 
                     <!-- ÁREA DE PRODUCTOS (SCROLL INTERNO) -->
@@ -249,7 +261,7 @@
                         <input type="text" id="searchInput" class="search-input" placeholder="Buscar producto en toda la tienda..." autocomplete="off" aria-label="Buscar producto">
                         <button type="button" class="search-clear" id="searchClear" aria-label="Limpiar búsqueda"><i class="fas fa-times-circle"></i></button>
                     </div>
-                    
+
                     <div class="results-container" id="resultsContainer">
                         <div class="results-title" id="resultsTitle"><i class="fas fa-search"></i> Resultados</div>
                         <div class="grid-results" id="resultsGrid"></div>
@@ -264,9 +276,9 @@
                         <span><i class="fas fa-print"></i> TICKETERA TÉRMICA · 80mm <span class="cart-counter" id="cartCounter">0 ítems</span></span>
                         <div class="leds"><span class="led green"></span><span class="led amber"></span></div>
                     </div>
-                    
+
                     <div class="ticket-paper" id="ticketPreview"></div>
-                    
+
                     <div class="printer-controls">
                         <div class="doc-selector" id="docSelector" role="tablist" aria-label="Tipo de documento">
                             <div class="doc-opt" data-type="boleta" role="tab" tabindex="0" aria-selected="false">BOLETA</div>
@@ -297,6 +309,38 @@
         </div>
     </div>
 
+    <!-- MODAL DE PESO (productos por kilo) -->
+    <div class="modal-overlay" id="weightModalOverlay">
+        <div class="modal-content">
+            <h3 style="color:#4a2e12;" id="weightProdName">Producto</h3>
+            <p class="weight-sub" id="weightProdPrice"></p>
+
+            <div class="quick-weights" id="quickWeights">
+                <button type="button" class="quick-btn" data-g="100">100 g</button>
+                <button type="button" class="quick-btn" data-g="250">250 g</button>
+                <button type="button" class="quick-btn" data-g="500">500 g</button>
+                <button type="button" class="quick-btn" data-g="1000">1 kg</button>
+            </div>
+
+            <div class="mode-toggle" id="modeToggle">
+                <button type="button" class="mode-btn active" data-mode="peso">Por peso (g)</button>
+                <button type="button" class="mode-btn" data-mode="monto">Por monto (S/)</button>
+            </div>
+
+            <form id="weightForm">
+                <div class="form-group">
+                    <label for="weightInput" id="weightInputLabel">Peso en gramos</label>
+                    <input type="number" id="weightInput" min="0" step="any" inputmode="decimal" placeholder="Ej: 350">
+                </div>
+                <div class="weight-preview" id="weightPreview"></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="weightCancelBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="weightConfirmBtn">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL NUEVO PRODUCTO -->
     <div class="modal-overlay" id="productModalOverlay">
         <div class="modal-content">
@@ -308,7 +352,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="newProdPrice">Precio (S/)</label>
+                        <label for="newProdPrice" id="newProdPriceLabel">Precio (S/)</label>
                         <input type="number" id="newProdPrice" step="0.10" min="0" required placeholder="Ej: 2.50">
                     </div>
                     <div class="form-group">
@@ -316,16 +360,26 @@
                         <input type="text" id="newProdSku" placeholder="PAN-CHO-16">
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="newProdCategory">Categoría</label>
-                    <select id="newProdCategory" required>
-                        <option value="Panes">Panes</option>
-                        <option value="Pastelería">Pastelería</option>
-                        <option value="Salados">Salados</option>
-                        <option value="Bebidas">Bebidas</option>
-                        <option value="Especiales">Especiales</option>
-                    </select>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newProdCategory">Categoría</label>
+                        <select id="newProdCategory" required>
+                            <option value="Panes">Panes</option>
+                            <option value="Embutidos">Embutidos</option>
+                            <option value="Pastelería">Pastelería</option>
+                            <option value="Salados">Salados</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Especiales">Especiales</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newProdUnit">Se vende por</label>
+                        <select id="newProdUnit">
+                            <option value="und">Unidad</option>
+                            <option value="kg">Kilo (peso)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="divider">--- ELIGE UNA OPCIÓN PARA LA FOTO ---</div>
@@ -358,18 +412,24 @@
         const URL_WORKER = 'https://api-panaderia.lyradios.workers.dev/';
         const IGV_RATE = 0.18;
         const PRICES_INCLUDE_IGV = true;
+        const MAX_GRAMS = 20000; // tope de seguridad: 20 kg por línea
 
         let PRODUCTS = [];
+        // En el carrito: quantity = unidades (und) o GRAMOS (kg)
         let cart = [];
         let currentDocType = 'ticket';
         let searchFilter = '';
         let currentCategory = 'Favoritos 🔥';
-        let lastTicketHtml = '';       
+        let lastTicketHtml = '';
         let draftDocNum = newDraftNum();
 
+        // Estado del modal de peso
+        let weightCtx = null;       // { id, editing }
+        let weightMode = 'peso';    // 'peso' | 'monto'
+
         const $ = id => document.getElementById(id);
-        const topSellersContainer = $('topSellersContainer'), topSellersGrid = $('topSellersGrid'), 
-              resultsContainer = $('resultsContainer'), resultsGrid = $('resultsGrid'), 
+        const topSellersContainer = $('topSellersContainer'), topSellersGrid = $('topSellersGrid'),
+              resultsContainer = $('resultsContainer'), resultsGrid = $('resultsGrid'),
               searchInput = $('searchInput'), searchClear = $('searchClear'),
               ticketPreview = $('ticketPreview'), clearCartBtn = $('clearCartBtn'), emitBtn = $('emitBtn'),
               modalOverlay = $('modalOverlay'), closeModalBtn = $('closeModalBtn'), printTicketBtn = $('printTicketBtn'),
@@ -377,14 +437,24 @@
               btnOpenProductModal = $('btnOpenProductModal'), productModalOverlay = $('productModalOverlay'),
               closeProductModalBtn = $('closeProductModalBtn'), productForm = $('productForm'),
               saveProductBtn = $('saveProductBtn'), imgPreview = $('imgPreview'),
-              searchWrapper = document.querySelector('.search-wrapper');
-        
+              weightModalOverlay = $('weightModalOverlay'), weightForm = $('weightForm'),
+              weightInput = $('weightInput'), weightPreview = $('weightPreview'),
+              weightInputLabel = $('weightInputLabel'), weightConfirmBtn = $('weightConfirmBtn');
+
         const docOpts = document.querySelectorAll('.doc-opt');
         const catBtns = document.querySelectorAll('.cat-btn');
+        const modeBtns = document.querySelectorAll('.mode-btn');
 
         const fmt = n => Number(n).toFixed(2);
         const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
         const safeUrl = u => /^(https?:\/\/|data:image\/)/i.test(String(u || '')) ? u : '';
+        const getProduct = id => PRODUCTS.find(x => x.id === id);
+
+        /* ---------- Peso / precios ---------- */
+        const isKg = p => p && p.unit === 'kg';
+        const fmtQty = g => g >= 1000 ? Number((g/1000).toFixed(3)) + ' kg' : g + ' g';
+        const lineTotal = (p, q) => isKg(p) ? Math.round(p.price * q / 1000 * 100) / 100 : p.price * q;
+        const priceLabel = p => 'S/ ' + fmt(p.price) + (isKg(p) ? '/kg' : '');
 
         function imgBlock(containerClass, imgClass, emojiClass, p){
             const src = safeUrl(p.image);
@@ -413,14 +483,16 @@
         }
         setInterval(updateDateTime,1000); updateDateTime();
 
+        // Cuenta unidades; cada línea por peso cuenta como 1 ítem
         function updateCartCounter(){
-            const count = cart.reduce((a,i)=>a+i.quantity,0);
+            const count = cart.reduce((a,i)=> a + (isKg(getProduct(i.productId)) ? 1 : i.quantity), 0);
             cartCounter.textContent = count + (count === 1 ? ' ítem' : ' ítems');
         }
 
         function calculateTotals(){
             let sum = 0;
-            cart.forEach(i=>{ const p = PRODUCTS.find(x=>x.id===i.productId); if(p) sum += p.price*i.quantity; });
+            cart.forEach(i=>{ const p = getProduct(i.productId); if(p) sum += lineTotal(p, i.quantity); });
+            sum = Math.round(sum * 100) / 100;
             if (PRICES_INCLUDE_IGV) {
                 const total = sum, subtotal = total/(1+IGV_RATE);
                 return { subtotal, igv: total-subtotal, total };
@@ -434,7 +506,7 @@
                 const res = await fetch(`${URL_WORKER}?accion=obtenerProductos`);
                 const data = await res.json();
                 if (data.exito && data.productos) {
-                    PRODUCTS = data.productos;
+                    PRODUCTS = data.productos.map(p => ({ ...p, unit: p.unit === 'kg' ? 'kg' : 'und' }));
                     renderTopSellers();
                     if (searchFilter.trim() !== '') renderResults();
                     renderTicketPreview();
@@ -456,28 +528,29 @@
 
         function renderTopSellers(){
             let filtered = [];
-            
+
             if (currentCategory === 'Favoritos 🔥') {
                 filtered = PRODUCTS.filter(p => p.top).sort((a,b) => a.rank - b.rank);
             } else {
                 filtered = PRODUCTS.filter(p => p.category === currentCategory).sort((a,b) => a.name.localeCompare(b.name));
             }
 
-            const limited = filtered.slice(0, 18); 
-            
+            const limited = filtered.slice(0, 18);
+
             topSellersGrid.innerHTML = '';
             if(limited.length === 0){
-                topSellersGrid.innerHTML = `<div class="empty-sellers"><i class="fas fa-box-open"></i> No hay productos en "${currentCategory}"</div>`;
+                topSellersGrid.innerHTML = `<div class="empty-sellers"><i class="fas fa-box-open"></i> No hay productos en "${esc(currentCategory)}"</div>`;
                 return;
             }
-            
+
             limited.forEach(p=>{
                 const d = document.createElement('div');
                 d.className = 'seller-card';
                 const rankBadge = currentCategory === 'Favoritos 🔥' ? `<span class="seller-rank">${esc(p.rank)}</span>` : '';
-                
-                d.innerHTML = `${rankBadge}${imgBlock('seller-img-container','seller-img','seller-emoji',p)}<span class="seller-name">${esc(p.name)}</span><span class="seller-price">S/ ${fmt(p.price)}</span>`;
-                d.addEventListener('click',()=>addToCart(p.id));
+                const kgBadge = isKg(p) ? '<span class="kg-badge">KG</span>' : '';
+
+                d.innerHTML = `${rankBadge}${kgBadge}${imgBlock('seller-img-container','seller-img','seller-emoji',p)}<span class="seller-name">${esc(p.name)}</span><span class="seller-price">${priceLabel(p)}</span>`;
+                d.addEventListener('click',()=>handleProductClick(p.id));
                 topSellersGrid.appendChild(d);
             });
             attachImgFallback(topSellersGrid);
@@ -495,8 +568,8 @@
             filtered.forEach(p=>{
                 const d = document.createElement('div');
                 d.className = 'result-card';
-                d.innerHTML = `<button type="button" class="result-add" title="Agregar" aria-label="Agregar ${esc(p.name)}"><i class="fas fa-plus"></i></button>${imgBlock('result-img-container','result-img','result-emoji',p)}<div class="result-info"><div><div class="result-name">${esc(p.name)}</div><div class="result-sku">${esc(p.sku)}</div></div><div class="result-price">S/ ${fmt(p.price)}</div></div>`;
-                d.addEventListener('click', ()=>addToCart(p.id));
+                d.innerHTML = `<button type="button" class="result-add" title="Agregar" aria-label="Agregar ${esc(p.name)}"><i class="fas fa-plus"></i></button>${imgBlock('result-img-container','result-img','result-emoji',p)}<div class="result-info"><div><div class="result-name">${esc(p.name)}</div><div class="result-sku">${esc(p.sku)}</div></div><div class="result-price">${priceLabel(p)}</div></div>`;
+                d.addEventListener('click', ()=>handleProductClick(p.id));
                 resultsGrid.appendChild(d);
             });
             attachImgFallback(resultsGrid);
@@ -505,29 +578,35 @@
         searchInput.addEventListener('input',e=>{
             searchFilter = e.target.value;
             searchClear.classList.toggle('visible', searchFilter.length>0);
-            
-            if (searchFilter.trim() === '') { 
-                // Mostrar categorías, ocultar búsqueda
-                resultsContainer.style.display = 'none'; 
+
+            if (searchFilter.trim() === '') {
+                resultsContainer.style.display = 'none';
                 topSellersContainer.style.display = 'flex';
-                document.getElementById('categoryTabs').style.display = 'flex';
-            } else { 
-                // Ocultar categorías, mostrar búsqueda
+                $('categoryTabs').style.display = 'flex';
+            } else {
                 topSellersContainer.style.display = 'none';
-                document.getElementById('categoryTabs').style.display = 'none';
-                resultsContainer.style.display = 'flex'; 
-                renderResults(); 
+                $('categoryTabs').style.display = 'none';
+                resultsContainer.style.display = 'flex';
+                renderResults();
             }
         });
 
         searchClear.addEventListener('click',()=>{
             searchInput.value=''; searchFilter=''; searchClear.classList.remove('visible');
-            resultsContainer.style.display = 'none'; 
+            resultsContainer.style.display = 'none';
             topSellersContainer.style.display = 'flex';
-            document.getElementById('categoryTabs').style.display = 'flex';
+            $('categoryTabs').style.display = 'flex';
             searchInput.focus();
         });
 
+        /* ---------- Carrito ---------- */
+        // Si se vende por kilo abre la ventana de peso; si no, suma 1 unidad
+        function handleProductClick(id){
+            const p = getProduct(id);
+            if(!p) return;
+            if(isKg(p)) openWeightModal(id, false);
+            else addToCart(id);
+        }
         function addToCart(id){
             const item = cart.find(i=>i.productId===id);
             if(item) item.quantity++; else cart.push({ productId:id, quantity:1 });
@@ -540,7 +619,79 @@
             if(item.quantity <= 0) cart = cart.filter(i=>i.productId!==id);
             renderTicketPreview();
         }
+        function removeFromCart(id){
+            cart = cart.filter(i=>i.productId!==id);
+            renderTicketPreview();
+        }
 
+        /* ---------- Modal de peso ---------- */
+        function setWeightMode(mode){
+            weightMode = mode;
+            modeBtns.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+            weightInputLabel.textContent = mode === 'peso' ? 'Peso en gramos' : 'Monto a comprar (S/)';
+            weightInput.placeholder = mode === 'peso' ? 'Ej: 350' : 'Ej: 5.00';
+            weightInput.value = '';
+            updateWeightPreview();
+        }
+
+        function getWeightGrams(){
+            const p = weightCtx && getProduct(weightCtx.id);
+            const v = parseFloat(weightInput.value);
+            if(!p || !(v > 0)) return 0;
+            if(weightMode === 'peso') return Math.round(v);
+            return p.price > 0 ? Math.round(v / p.price * 1000) : 0;
+        }
+
+        function updateWeightPreview(){
+            const p = weightCtx && getProduct(weightCtx.id);
+            const g = getWeightGrams();
+            weightPreview.textContent = (p && g > 0) ? `${fmtQty(g)}  →  S/ ${fmt(lineTotal(p, g))}` : '';
+        }
+
+        function openWeightModal(id, editing){
+            const p = getProduct(id);
+            if(!p) return;
+            weightCtx = { id, editing };
+            $('weightProdName').textContent = p.name;
+            $('weightProdPrice').textContent = 'S/ ' + fmt(p.price) + ' por kilo';
+            weightConfirmBtn.textContent = editing ? 'Guardar' : 'Agregar';
+            setWeightMode('peso');
+            if(editing){
+                const item = cart.find(i=>i.productId===id);
+                if(item){ weightInput.value = item.quantity; updateWeightPreview(); }
+            }
+            weightModalOverlay.classList.add('active');
+            weightInput.focus();
+        }
+
+        function closeWeightModal(){ weightModalOverlay.classList.remove('active'); weightCtx = null; }
+
+        function confirmWeight(g){
+            if(!weightCtx) return;
+            if(!(g > 0)){ alert('Ingresa un peso o monto válido.'); return; }
+            if(g > MAX_GRAMS){ alert('El peso máximo por línea es ' + (MAX_GRAMS/1000) + ' kg.'); return; }
+            const { id, editing } = weightCtx;
+            const item = cart.find(i=>i.productId===id);
+            if(item){
+                item.quantity = editing ? g : Math.min(item.quantity + g, MAX_GRAMS);
+            } else {
+                cart.push({ productId:id, quantity:g });
+            }
+            closeWeightModal();
+            renderTicketPreview();
+        }
+
+        modeBtns.forEach(b => b.addEventListener('click', () => setWeightMode(b.dataset.mode)));
+        weightInput.addEventListener('input', updateWeightPreview);
+        weightForm.addEventListener('submit', e => { e.preventDefault(); confirmWeight(getWeightGrams()); });
+        $('weightCancelBtn').addEventListener('click', closeWeightModal);
+        weightModalOverlay.addEventListener('click', e => { if(e.target === weightModalOverlay) closeWeightModal(); });
+        // Botones rápidos: agregan de inmediato ese peso
+        $('quickWeights').querySelectorAll('.quick-btn').forEach(b => {
+            b.addEventListener('click', () => confirmWeight(parseInt(b.dataset.g, 10)));
+        });
+
+        /* ---------- Ticket ---------- */
         function buildTicketHtml({ docNum, date, interactive }){
             const { subtotal, igv, total } = calculateTotals();
             const dateStr = date.toLocaleDateString('es-PE', {day:'2-digit', month:'2-digit', year:'numeric'});
@@ -556,12 +707,21 @@
             } else {
                 itemsHtml += `<div class="tk-row tk-small" style="border-bottom:1px dashed #888; padding-bottom:0.2rem; margin-bottom:0.2rem; font-weight:bold;"><span>DESCRIPCIÓN</span><span>TOTAL</span></div>`;
                 cart.forEach(i=>{
-                    const p = PRODUCTS.find(x=>x.id===i.productId);
+                    const p = getProduct(i.productId);
                     if(!p) return;
-                    const controls = interactive
-                        ? `<div class="tk-qty-controls"><button type="button" class="tk-qty-btn minus" data-id="${esc(p.id)}" data-delta="-1" title="Quitar uno" aria-label="Quitar uno"><i class="fas fa-minus" style="font-size:0.55rem;"></i></button><span class="tk-qty-num">${i.quantity}</span><button type="button" class="tk-qty-btn plus" data-id="${esc(p.id)}" data-delta="1" title="Agregar uno" aria-label="Agregar uno"><i class="fas fa-plus" style="font-size:0.55rem;"></i></button></div>`
-                        : `<div class="tk-qty-controls" style="display:flex;"><span class="tk-qty-num">x${i.quantity}</span></div>`;
-                    itemsHtml += `<div class="tk-product-line"><div class="tk-prod-info"><div class="tk-prod-name">${esc(p.name)}</div><div class="tk-prod-meta">${fmt(p.price)} c/u</div></div>${controls}<div class="tk-prod-total">${fmt(p.price*i.quantity)}</div></div>`;
+                    let controls, meta;
+                    if(isKg(p)){
+                        meta = `${fmtQty(i.quantity)} x S/ ${fmt(p.price)}/kg`;
+                        controls = interactive
+                            ? `<div class="tk-qty-controls"><button type="button" class="tk-qty-btn edit" data-id="${esc(p.id)}" data-action="edit" title="Cambiar peso" aria-label="Cambiar peso"><i class="fas fa-pen" style="font-size:0.5rem;"></i></button><button type="button" class="tk-qty-btn minus" data-id="${esc(p.id)}" data-action="remove" title="Quitar" aria-label="Quitar"><i class="fas fa-trash" style="font-size:0.5rem;"></i></button></div>`
+                            : '';
+                    } else {
+                        meta = `${fmt(p.price)} c/u`;
+                        controls = interactive
+                            ? `<div class="tk-qty-controls"><button type="button" class="tk-qty-btn minus" data-id="${esc(p.id)}" data-delta="-1" title="Quitar uno" aria-label="Quitar uno"><i class="fas fa-minus" style="font-size:0.55rem;"></i></button><span class="tk-qty-num">${i.quantity}</span><button type="button" class="tk-qty-btn plus" data-id="${esc(p.id)}" data-delta="1" title="Agregar uno" aria-label="Agregar uno"><i class="fas fa-plus" style="font-size:0.55rem;"></i></button></div>`
+                            : `<div class="tk-qty-controls" style="display:flex;"><span class="tk-qty-num">x${i.quantity}</span></div>`;
+                    }
+                    itemsHtml += `<div class="tk-product-line"><div class="tk-prod-info"><div class="tk-prod-name">${esc(p.name)}</div><div class="tk-prod-meta">${esc(meta)}</div></div>${controls}<div class="tk-prod-total">${fmt(lineTotal(p, i.quantity))}</div></div>`;
                 });
             }
 
@@ -599,7 +759,14 @@
             updateCartCounter();
             ticketPreview.innerHTML = buildTicketHtml({ docNum: draftDocNum, date: new Date(), interactive: true });
             ticketPreview.querySelectorAll('.tk-qty-btn').forEach(btn=>{
-                btn.addEventListener('click',e=>{ e.stopPropagation(); changeQuantity(btn.dataset.id, parseInt(btn.dataset.delta,10)); });
+                btn.addEventListener('click',e=>{
+                    e.stopPropagation();
+                    const id = btn.dataset.id;
+                    const action = btn.dataset.action;
+                    if(action === 'edit') openWeightModal(id, true);
+                    else if(action === 'remove') removeFromCart(id);
+                    else changeQuantity(id, parseInt(btn.dataset.delta,10));
+                });
             });
         }
 
@@ -617,12 +784,17 @@
             cart = []; draftDocNum = newDraftNum(); renderTicketPreview();
         });
 
+        /* ---------- Emitir ---------- */
         emitBtn.addEventListener('click', async () => {
             if (cart.length === 0) { alert('Agrega al menos un producto antes de emitir.'); return; }
             const totales = calculateTotals();
             const datosVenta = {
                 accion: 'guardarVenta', tipoDocumento: currentDocType,
-                items: cart.map(item => { const prod = PRODUCTS.find(p => p.id === item.productId); return { nombre: prod.name, cantidad: item.quantity }; }),
+                items: cart.map(item => {
+                    const prod = getProduct(item.productId);
+                    // cantidad = unidades, o gramos si unidad === 'kg'
+                    return { nombre: prod.name, cantidad: item.quantity, unidad: prod.unit };
+                }),
                 subtotal: parseFloat(totales.subtotal.toFixed(2)), igv: parseFloat(totales.igv.toFixed(2)),
                 total: parseFloat(totales.total.toFixed(2)), cajero: 'VENDEDOR 01'
             };
@@ -658,12 +830,12 @@
 
         /* ============ NUEVO PRODUCTO ============ */
         async function resizeImage(file, maxWidth = 500, maxHeight = 500) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.readAsDataURL(file);
+                reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
                 reader.onload = (event) => {
                     const img = new Image();
-                    img.src = event.target.result;
+                    img.onerror = () => reject(new Error('El archivo no es una imagen válida.'));
                     img.onload = () => {
                         let width = img.width;
                         let height = img.height;
@@ -679,12 +851,20 @@
                         ctx.drawImage(img, 0, 0, width, height);
                         resolve(canvas.toDataURL('image/jpeg', 0.8));
                     };
+                    img.src = event.target.result;
                 };
+                reader.readAsDataURL(file);
             });
         }
 
+        // La etiqueta del precio cambia según "Se vende por"
+        $('newProdUnit').addEventListener('change', e => {
+            $('newProdPriceLabel').textContent = e.target.value === 'kg' ? 'Precio por KILO (S/)' : 'Precio (S/)';
+        });
+
         btnOpenProductModal.addEventListener('click', () => {
             productForm.reset(); imgPreview.style.display = 'none';
+            $('newProdPriceLabel').textContent = 'Precio (S/)';
             productModalOverlay.classList.add('active'); $('newProdName').focus();
         });
 
@@ -703,7 +883,8 @@
 
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                if (productModalOverlay.classList.contains('active')) closeProductModal();
+                if (weightModalOverlay.classList.contains('active')) closeWeightModal();
+                else if (productModalOverlay.classList.contains('active')) closeProductModal();
                 else if (modalOverlay.classList.contains('active')) closeModal();
             }
         });
@@ -730,7 +911,7 @@
 
                 const uid = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
                 const isTop = $('newProdTop').value === 'SI';
-                const maxRank = isTop ? Math.max(0, ...PRODUCTS.filter(p=>p.top).map(p=>p.rank)) + 1 : 99;
+                const maxRank = isTop ? Math.max(0, ...PRODUCTS.filter(p=>p.top && p.rank < 99).map(p=>p.rank)) + 1 : 99;
 
                 const nuevoProd = {
                     accion: 'crearProducto',
@@ -741,6 +922,7 @@
                     top: isTop,
                     rank: maxRank,
                     category: $('newProdCategory').value,
+                    unit: $('newProdUnit').value,
                     imageBase64: imageBase64,
                     imageName: imageName,
                     imageUrl: enlaceDirecto
