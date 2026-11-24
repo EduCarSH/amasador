@@ -246,6 +246,7 @@
                         <button type="button" class="cat-btn" data-cat="Pastelería">Pastelería</button>
                         <button type="button" class="cat-btn" data-cat="Salados">Salados</button>
                         <button type="button" class="cat-btn" data-cat="Bebidas">Bebidas</button>
+                        <button type="button" class="cat-btn" data-cat="Abarrotes">Abarrotes</button>
                         <button type="button" class="cat-btn" data-cat="Especiales">Especiales</button>
                     </div>
 
@@ -365,6 +366,7 @@
                             <option value="Pastelería">Pastelería</option>
                             <option value="Salados">Salados</option>
                             <option value="Bebidas">Bebidas</option>
+                            <option value="Abarrotes">Abarrotes</option>
                             <option value="Especiales">Especiales</option>
                         </select>
                     </div>
@@ -407,7 +409,7 @@
         const URL_WORKER = 'https://api-panaderia.lyradios.workers.dev/';
         const IGV_RATE = 0.18;
         const PRICES_INCLUDE_IGV = true;
-        const MAX_GRAMS = 20000; // tope de seguridad: 20 kg por línea
+        const MAX_GRAMS = 50000; // tope de seguridad: 50 kg por línea
 
         let PRODUCTS = [];
         // En el carrito: quantity = unidades (und) o GRAMOS (kg)
