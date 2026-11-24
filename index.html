@@ -532,7 +532,7 @@
                 filtered = PRODUCTS.filter(p => p.category === currentCategory).sort((a,b) => a.name.localeCompare(b.name));
             }
 
-            const limited = filtered.slice(0, 18);
+            const limited = filtered; // la cuadrícula tiene scroll interno: se muestran todos
 
             topSellersGrid.innerHTML = '';
             if(limited.length === 0){
@@ -826,8 +826,7 @@
         });
 
         /* ============ NUEVO PRODUCTO ============ */
-        
-        // FUNCIÓN OPTIMIZADA: Achica a 300x300 y comprime al 60% para que pese ~40KB
+        // Achica a 300x300 y comprime al 60% (~40 KB)
         async function resizeImage(file, maxWidth = 300, maxHeight = 300) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -848,7 +847,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, width, height);
                         ctx.drawImage(img, 0, 0, width, height);
-                        // Comprimimos al 60% de calidad y en formato JPG
                         resolve(canvas.toDataURL('image/jpeg', 0.6));
                     };
                     img.src = event.target.result;
@@ -902,7 +900,6 @@
 
             try {
                 if (file) {
-                    // Aquí se aplica la compresión agresiva (300x300)
                     imageBase64 = await resizeImage(file, 300, 300);
                     imageName = Date.now() + '-producto.jpg';
                 } else if (imageUrlText) {
