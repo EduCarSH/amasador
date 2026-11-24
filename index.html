@@ -354,10 +354,6 @@
                         <label for="newProdPrice" id="newProdPriceLabel">Precio (S/)</label>
                         <input type="number" id="newProdPrice" step="0.10" min="0" required placeholder="Ej: 2.50">
                     </div>
-                    <div class="form-group">
-                        <label for="newProdSku">Código (SKU)</label>
-                        <input type="text" id="newProdSku" placeholder="PAN-CHO-16">
-                    </div>
                 </div>
 
                 <div class="form-row">
@@ -917,7 +913,7 @@
                     id: 'P' + uid,
                     name: $('newProdName').value.trim(),
                     price: parseFloat($('newProdPrice').value),
-                    sku: $('newProdSku').value.trim() || 'SKU-' + uid.slice(-5).toUpperCase(),
+                    sku: '', // el backend asigna el código automático (PAN-001, EMB-002...)
                     top: isTop,
                     rank: maxRank,
                     category: $('newProdCategory').value,
@@ -939,7 +935,7 @@
                 if (resultado.exito) {
                     alert(resultado.advertencia
                         ? '⚠️ El producto se guardó, pero: ' + resultado.advertencia
-                        : '¡Producto guardado exitosamente!');
+                        : '¡Producto guardado! Código asignado: ' + (resultado.sku || ''));
                     closeProductModal();
                     restoreBtn();
                     cargarProductos().catch(err => console.log('Error al recargar:', err));
