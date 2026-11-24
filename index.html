@@ -34,7 +34,7 @@
         .datetime i { color:var(--c-accent); }
 
         /* --- MAIN GRID --- */
-        .main-grid { display:grid; grid-template-columns: 1.6fr 1fr; gap:1.5rem; flex: 1; min-height: 0; }
+        .main-grid { display:grid; grid-template-columns: minmax(0,1fr) 350px; gap:1.5rem; flex: 1; min-height: 0; }
         .col-left { display:flex; flex-direction:column; min-height:0; }
         .col-right { display:flex; flex-direction:column; min-height:0; }
 
@@ -220,19 +220,18 @@
 <body>
     <div class="app-container">
 
-        <!-- HEADER -->
-        <div class="header">
-            <div class="logo-area">
-                <h1><i class="fas fa-bread-slice"></i> Amasador - Panadería <span class="badge-emi">TICKETERA</span></h1>
-                <div class="datetime"><i class="fas fa-clock"></i> <span id="currentDateTime"></span></div>
-            </div>
-        </div>
-
         <!-- MAIN GRID -->
         <div class="main-grid">
 
-            <!-- COLUMNA IZQUIERDA: PRODUCTOS -->
+            <!-- COLUMNA IZQUIERDA: HEADER + PRODUCTOS -->
             <div class="col-left">
+                <!-- HEADER -->
+            <div class="header">
+                <div class="logo-area">
+                    <h1><i class="fas fa-bread-slice"></i> Amasador - Panadería <span class="badge-emi">TICKETERA</span></h1>
+                    <div class="datetime"><i class="fas fa-clock"></i> <span id="currentDateTime"></span></div>
+                </div>
+            </div>
                 <div class="card">
                     <div class="card-header">
                         <h2><i class="fas fa-basket-shopping"></i> Punto de venta</h2>
@@ -248,7 +247,6 @@
                         <button type="button" class="cat-btn" data-cat="Salados">Salados</button>
                         <button type="button" class="cat-btn" data-cat="Bebidas">Bebidas</button>
                         <button type="button" class="cat-btn" data-cat="Especiales">Especiales</button>
-                        <button type="button" class="cat-btn" data-cat="Abarrotes">Abarrotes</button>
                     </div>
 
                     <!-- ÁREA DE PRODUCTOS (SCROLL INTERNO) -->
