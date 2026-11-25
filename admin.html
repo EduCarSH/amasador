@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amasador | Administración</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{
+            --bg:#f6efe6; --paper:#fffdf9; --brown:#3a1e10; --brown2:#684323;
+            --accent:#b5651e; --accent2:#8f4e15; --green:#4a8a3a; --green-light:#e8f5e4;
+            --line:#ead9c6; --muted:#927d68; --red:#b74335; --shadow:0 12px 30px rgba(75,43,17,.09);
+        }
+        *{box-sizing:border-box; margin:0; padding:0}
+        body{
+            background:linear-gradient(145deg,#fcf7f0,#f0e1d0);
+            font-family:'Inter','Segoe UI',sans-serif; color:var(--brown); min-height:100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        button,input{font:inherit; border:none; background:none; outline:none}
+        button{cursor:pointer}
+        
+        /* --- ESTRUCTURA --- */
+        .shell{max-width:1440px; margin:auto; padding:24px}
+        .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px}
+        .brand{display:flex; align-items:center; gap:12px}
+        .brand-icon{width:46px; height:46px; border-radius:15px; background:linear-gradient(145deg,#9b5b27,#3a1e10); color:#fff; display:grid; place-items:center; font-size:20px; box-shadow:var(--shadow)}
+        .brand h1{font-family:Georgia,serif; font-size:25px}
+        .brand small{display:block; color:var(--muted); font-size:12px; margin-top:3px}
+        .top-actions{display:flex; align-items:center; gap:12px}
+        .date-label{color:var(--muted); font-size:13px}
+        
+        /* --- BOTONES --- */
+        .btn{border-radius:11px; padding:11px 15px; font-weight:700; display:inline-flex; align-items:center; gap:8px; transition:.15s}
+        .btn-primary{background:var(--accent); color:white}
+        .btn-primary:hover{background:var(--accent2); transform:translateY(-1px)}
+        .btn-light{background:#fff8ef; color:var(--brown2); border:1px solid var(--line)}
+        .btn-light:hover{background:#f8ead9}
+        .btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
+
+        /* --- LOGIN --- */
+        .login-wrap{min-height:calc(100vh - 120px); display:grid; place-items:center}
+        .login-card{width:min(430px,100%); background:var(--paper); border:1px solid var(--line); border-radius:24px; padding:34px; box-shadow:var(--shadow)}
+        .login-logo{width:62px; height:62px; margin:0 auto 16px; border-radius:20px; background:#f6e8d6; color:var(--accent); display:grid; place-items:center; font-size:26px}
+        .login-card h2{text-align:center; font-family:Georgia,serif; font-size:27px; margin-bottom:7px}
+        .login-card p{text-align:center; color:var(--muted); font-size:13px; margin-bottom:25px}
+        .field{display:block; margin:15px 0}
+        .field span{display:block; font-size:12px; font-weight:700; color:var(--brown2); margin-bottom:7px}
+        .field input{width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:15px; transition:.15s}
+        .field input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(181,101,30,.1)}
+        .login-card .btn{width:100%; justify-content:center; margin-top:8px; padding:13px}
+        .error{display:none; background:#fff0ed; color:var(--red); padding:10px 12px; border-radius:9px; font-size:13px; margin:12px 0; text-align:center}
+
+        /* --- APP --- */
+        .app{display:none}
+        .layout{display:grid; grid-template-columns:240px minmax(0,1fr); gap:20px}
+        .sidebar{background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:17px; height:fit-content; box-shadow:var(--shadow)}
+        .side-label{font-size:10px; letter-spacing:1.3px; text-transform:uppercase; color:#ad967d; font-weight:800; padding:8px 10px}
+        .nav-btn{width:100%; text-align:left; padding:12px 11px; border-radius:11px; color:var(--brown2); font-weight:650; display:flex; gap:11px; align-items:center; margin:3px 0; transition:.1s}
+        .nav-btn i{width:18px; text-align:center; color:#a77a4e; font-size:1.1em}
+        .nav-btn:hover, .nav-btn.active{background:#f8ecdd; color:var(--accent2)}
+        .nav-btn.active i{color:var(--accent)}
+
+        .main{min-width:0}
+        .page-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom:20px}
+        .page-head h2{font-family:Georgia,serif; font-size:28px; margin-bottom:4px}
+        .page-head p{color:var(--muted); font-size:13px}
+
+        /* --- TARJETAS (CARDS) --- */
+        .panel{display:none}
+        .panel.active{display:block; animation:fadeIn 0.3s ease}
+        @keyframes fadeIn{from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:translateY(0)}}
+        
+        .cards{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:20px}
+        .stat{background:var(--paper); border:1px solid var(--line); border-radius:17px; padding:18px; box-shadow:var(--shadow); transition:.2s}
+        .stat:hover{transform:translateY(-2px); box-shadow:0 15px 35px rgba(75,43,17,.12)}
+        .stat-top{display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:12px; font-weight:650; gap:8px}
+        .stat-icon{width:34px; height:34px; border-radius:11px; background:#f8ecdd; color:var(--accent); display:grid; place-items:center}
+        .stat strong{display:block; font-size:26px; margin-top:12px; font-family:Georgia,serif}
+        .stat small{display:block; color:var(--muted); font-size:11px; margin-top:4px}
+
+        /* --- FILTROS --- */
+        .filters{display:flex; align-items:flex-end; gap:12px; flex-wrap:wrap; margin-bottom:20px; background:var(--paper); border:1px solid var(--line); padding:14px; border-radius:15px; box-shadow:var(--shadow)}
+        .filters label{font-size:11px; color:var(--muted); font-weight:700; display:grid; gap:6px}
+        .filters input{padding:9px 12px; border:1px solid var(--line); border-radius:9px; background:white; color:var(--brown); min-width:150px; font-family:inherit}
+        .filters input:focus{border-color:var(--accent); outline:none}
+
+        /* --- GRÁFICOS Y TABLAS --- */
+        .grid-two{display:grid; grid-template-columns:1.3fr 1fr; gap:20px}
+        .box{background:var(--paper); border:1px solid var(--line); border-radius:17px; padding:20px; box-shadow:var(--shadow); min-width:0}
+        .box-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px}
+        .box h3{font-size:16px; font-family:Georgia,serif}
+        .muted{color:var(--muted); font-size:12px}
+        
+        .bar-list{display:grid; gap:14px}
+        .bar-row{display:grid; grid-template-columns:minmax(80px,1fr) 2fr auto; align-items:center; gap:12px; font-size:12px}
+        .bar-name{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; color:var(--brown2)}
+        .bar-track{height:8px; background:#f1e6d9; border-radius:9px; overflow:hidden}
+        .bar-fill{height:100%; background:linear-gradient(90deg,#d18b43,#8f4e15); border-radius:9px; transition:width 0.5s ease}
+        
+        .table-wrap{overflow:auto}
+        table{width:100%; border-collapse:collapse; font-size:13px; white-space:nowrap}
+        th{text-align:left; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.6px; background:#fbf5ed; padding:12px 10px; position:sticky; top:0}
+        td{padding:12px 10px; border-bottom:1px solid #f0e6da; color:var(--brown2)}
+        tbody tr:last-child td{border-bottom:0}
+        tbody tr:hover{background:#fdfaf6}
+        .right{text-align:right}
+        .empty{text-align:center; padding:30px; color:var(--muted); font-size:13px; font-style:italic}
+
+        /* --- LOADING SKELETON --- */
+        .skeleton{background:#f0e6da; border-radius:6px; animation:pulse 1.5s infinite; color:transparent !important}
+        @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.5}}
+
+        .status{font-size:12px; color:var(--muted); margin-top:14px; min-height:18px; text-align:center}
+        .status.bad{color:var(--red)}
+        .status.good{color:var(--green)}
+        .footer-note{margin-top:25px; color:#a18b74; font-size:11px; text-align:center}
+
+        @media(max-width:1000px){ .cards{grid-template-columns:repeat(2,1fr)} .layout{grid-template-columns:200px minmax(0,1fr)} }
+        @media(max-width:700px){
+            .shell{padding:14px} .topbar{align-items:flex-start} .date-label{display:none}
+            .layout{display:block} 
+            .sidebar{display:flex; overflow:auto; gap:6px; padding:8px; margin-bottom:15px}
+            .side-label{display:none} .nav-btn{width:auto; white-space:nowrap; margin:0; padding:10px; font-size:12px}
+            .nav-btn i{display:none} 
+            .grid-two{grid-template-columns:1fr} .cards{gap:10px}
+            .login-card{padding:25px} .filters{flex-direction:column; align-items:stretch}
+            .filters input{min-width:100%}
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fa-solid fa-wheat-awn"></i></div>
+            <div><h1>Amasador</h1><small>Panel de administración</small></div>
+        </div>
+        <div class="top-actions">
+            <span class="date-label" id="todayLabel"></span>
+            <button class="btn btn-light" id="logoutTop" style="display:none"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
+        </div>
+    </header>
+
+    <!-- LOGIN -->
+    <section class="login-wrap" id="loginView">
+        <div class="login-card">
+            <div class="login-logo"><i class="fa-solid fa-lock"></i></div>
+            <h2>Acceso administrativo</h2>
+            <p>Ingresa tus credenciales para continuar</p>
+            <form id="loginForm">
+                <label class="field"><span>Usuario</span><input id="username" autocomplete="username" required placeholder="Usuario administrador"></label>
+                <label class="field"><span>Contraseña</span><input id="password" type="password" autocomplete="current-password" required placeholder="Contraseña"></label>
+                <div class="error" id="loginError"></div>
+                <button class="btn btn-primary" id="loginButton" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+            </form>
+            <div style="font-size:11px; text-align:center; color:var(--muted); margin-top:20px;">
+                <i class="fa-solid fa-shield-halved"></i> Validación segura en el servidor
+            </div>
+        </div>
+    </section>
+
+    <!-- APP -->
+    <section class="app" id="appView">
+        <div class="layout">
+            <aside class="sidebar">
+                <div class="side-label">Principal</div>
+                <button class="nav-btn active" data-panel="dashboard"><i class="fa-solid fa-chart-pie"></i><span>Resumen</span></button>
+                <button class="nav-btn" data-panel="sales"><i class="fa-solid fa-receipt"></i><span>Ventas</span></button>
+                <button class="nav-btn" data-panel="products"><i class="fa-solid fa-box-open"></i><span>Productos</span></button>
+                <div class="side-label" style="margin-top:16px">Cuenta</div>
+                <button class="nav-btn" id="logoutSide"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Cerrar sesión</span></button>
+            </aside>
+
+            <main class="main">
+                <!-- DASHBOARD -->
+                <section class="panel active" id="panel-dashboard">
+                    <div class="page-head">
+                        <div><h2>Resumen general</h2><p>Indicadores de ventas de Amasador</p></div>
+                        <button class="btn btn-light" id="refreshBtn"><i class="fa-solid fa-rotate"></i> Actualizar</button>
+                    </div>
+                    
+                    <div class="filters">
+                        <label>Desde<input type="date" id="fromDate"></label>
+                        <label>Hasta<input type="date" id="toDate"></label>
+                        <button class="btn btn-primary" id="applyDates"><i class="fa-solid fa-filter"></i> Aplicar</button>
+                    </div>
+
+                    <div class="cards">
+                        <div class="stat">
+                            <div class="stat-top">Ventas del periodo <span class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></span></div>
+                            <strong id="totalSales" class="skeleton">S/ 0.00</strong><small>Importe registrado</small>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-top">Tickets emitidos <span class="stat-icon"><i class="fa-solid fa-ticket"></i></span></div>
+                            <strong id="ticketCount" class="skeleton">0</strong><small>Documentos procesados</small>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-top">Promedio por ticket <span class="stat-icon"><i class="fa-solid fa-calculator"></i></span></div>
+                            <strong id="averageTicket" class="skeleton">S/ 0.00</strong><small>Ticket promedio</small>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-top">Productos catálogo <span class="stat-icon"><i class="fa-solid fa-box"></i></span></div>
+                            <strong id="productCount" class="skeleton">0</strong><small>En inventario</small>
+                        </div>
+                    </div>
+
+                    <div class="grid-two">
+                        <div class="box">
+                            <div class="box-head"><h3>Evolución de ventas</h3><span class="muted">Últimos días</span></div>
+                            <div id="dailyBars" class="bar-list"><div class="empty">Cargando datos...</div></div>
+                        </div>
+                        <div class="box">
+                            <div class="box-head"><h3>Últimos tickets</h3><span class="muted">Recientes</span></div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Fecha</th><th>Ticket</th><th class="right">Total</th></tr></thead>
+                                    <tbody id="recentRows"><tr><td colspan="3" class="empty">Cargando...</td></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="status" id="dashboardStatus"></p>
+                </section>
+
+                <!-- VENTAS -->
+                <section class="panel" id="panel-sales">
+                    <div class="page-head"><div><h2>Historial de ventas</h2><p>Consulta los tickets registrados</p></div></div>
+                    <div class="filters">
+                        <label>Desde<input type="date" id="salesFrom"></label>
+                        <label>Hasta<input type="date" id="salesTo"></label>
+                        <button class="btn btn-primary" id="searchSales"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                    </div>
+                    <div class="box">
+                        <div class="box-head"><h3>Registro detallado</h3><span class="muted" id="salesCount">0 registros</span></div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Fecha</th><th>Doc.</th><th>Nº</th><th>Detalle</th><th class="right">Subtotal</th><th class="right">IGV</th><th class="right">Total</th></tr></thead>
+                                <tbody id="salesRows"><tr><td colspan="7" class="empty">Aplica un filtro para buscar.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="status" id="salesStatus"></p>
+                </section>
+
+                <!-- PRODUCTOS -->
+                <section class="panel" id="panel-products">
+                    <div class="page-head"><div><h2>Productos más vendidos</h2><p>Ranking de salida según ventas</p></div></div>
+                    <div class="filters">
+                        <label>Desde<input type="date" id="productsFrom"></label>
+                        <label>Hasta<input type="date" id="productsTo"></label>
+                        <button class="btn btn-primary" id="searchProducts"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                    </div>
+                    <div class="box">
+                        <div class="box-head"><h3>Ranking de productos</h3><span class="muted">Por cantidad vendida</span></div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>Producto</th><th>SKU</th><th>Unidad</th><th class="right">Cantidad</th><th class="right">Importe</th></tr></thead>
+                                <tbody id="productRows"><tr><td colspan="5" class="empty">Aplica un filtro para buscar.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="status" id="productsStatus"></p>
+                </section>
+            </main>
+        </div>
+        <div class="footer-note">Amasador · Sistema de Gestión</div>
+    </section>
+</div>
+
+<script>
+    const API_URL = 'https://api-panaderia.lyradios.workers.dev/';
+    const SESSION_KEY = 'amasador_admin_session';
+    let sessionToken = '';
+
+    const $ = id => document.getElementById(id);
+    const money = value => new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(value || 0);
+    const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    
+    // Configurar fechas por defecto (Mes actual)
+    const today = new Date();
+    const isoDate = d => { const x = new Date(d.getTime() - d.getTimezoneOffset() * 60000); return x.toISOString().slice(0,10); };
+    $('todayLabel').textContent = today.toLocaleDateString('es-PE', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    
+    ['fromDate','salesFrom','productsFrom'].forEach(id => $(id).value = isoDate(firstDay));
+    ['toDate','salesTo','productsTo'].forEach(id => $(id).value = isoDate(today));
+
+    async function api(action, payload = {}, authenticated = true) {
+        const headers = { 'Content-Type': 'application/json' };
+        if (authenticated && sessionToken) payload.token = sessionToken;
+
+        const response = await fetch(API_URL, { method: 'POST', headers, body: JSON.stringify({ accion: action, ...payload }) });
+        const data = await response.json().catch(() => ({ exito: false, error: 'Error de comunicación.' }));
+
+        if (!data.exito && data.error && data.error.includes('sesión')) {
+            logout();
+            throw new Error('Sesión expirada. Vuelve a ingresar.');
+        }
+        if (!response.ok || data.exito === false) throw new Error(data.error || 'Error desconocido.');
+        return data;
+    }
+
+    function showLogin() {
+        $('loginView').style.display = 'grid';
+        $('appView').style.display = 'none';
+        $('logoutTop').style.display = 'none';
+    }
+    function showApp() {
+        $('loginView').style.display = 'none';
+        $('appView').style.display = 'block';
+        $('logoutTop').style.display = 'inline-flex';
+    }
+    function logout() {
+        sessionToken = '';
+        sessionStorage.removeItem(SESSION_KEY);
+        showLogin();
+        $('password').value = '';
+        $('loginError').style.display = 'none';
+    }
+
+    $('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = $('loginButton'), err = $('loginError');
+        btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verificando...';
+        err.style.display = 'none';
+
+        try {
+            const data = await api('adminLogin', { usuario: $('username').value.trim(), password: $('password').value }, false);
+            if (!data.token) throw new Error('Falta el token en la respuesta.');
+            sessionToken = data.token;
+            sessionStorage.setItem(SESSION_KEY, sessionToken);
+            showApp();
+            await loadDashboard();
+        } catch (error) {
+            err.textContent = error.message;
+            err.style.display = 'block';
+        } finally {
+            btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Ingresar';
+        }
+    });
+
+    $('logoutTop').onclick = logout;
+    $('logoutSide').onclick = logout;
+
+    document.querySelectorAll('.nav-btn[data-panel]').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn[data-panel]').forEach(b => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + btn.dataset.panel));
+    }));
+
+    function setStatus(id, msg, type = '') {
+        const el = $(id);
+        el.textContent = msg;
+        el.className = 'status ' + type;
+    }
+
+    // --- DASHBOARD ---
+    function renderBars(containerId, items) {
+        const el = $(containerId);
+        if (!items || !items.length) { el.innerHTML = '<div class="empty">No hay ventas en este periodo.</div>'; return; }
+        
+        // Límite a los últimos 10 días
+        const arr = items.slice(-10);
+        const max = Math.max(...arr.map(x => Number(x.total) || 0), 1);
+        
+        el.innerHTML = arr.map(x => {
+            const pct = Math.max(4, (Number(x.total) || 0) / max * 100);
+            const dateParts = x.fecha.split('/');
+            const dateStr = `${dateParts[0]}/${dateParts[1]}`;
+            return `
+            <div class="bar-row">
+                <span class="bar-name">${dateStr}</span>
+                <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+                <b>${money(x.total)}</b>
+            </div>`;
+        }).join('');
+    }
+
+    function renderRecent(items) {
+        $('recentRows').innerHTML = items && items.length
+            ? items.slice(0,7).map(x => `<tr><td>${esc(x.fecha)}</td><td>${esc(x.ticket)}</td><td class="right"><b>${money(x.total)}</b></td></tr>`).join('')
+            : '<tr><td colspan="3" class="empty">No hay ventas.</td></tr>';
+    }
+
+    async function loadDashboard() {
+        setStatus('dashboardStatus', 'Actualizando...', '');
+        // Mostrar skeleton
+        ['totalSales','ticketCount','averageTicket','productCount'].forEach(id => $(id).classList.add('skeleton'));
+
+        try {
+            const data = await api('adminResumen', { desde: $('fromDate').value, hasta: $('toDate').value });
+            const d = data.resumen || data;
+            
+            $('totalSales').textContent = money(d.totalVentas);
+            $('ticketCount').textContent = Number(d.cantidadTickets || 0).toLocaleString('es-PE');
+            $('averageTicket').textContent = money(d.promedioTicket);
+            $('productCount').textContent = Number(d.productosCatalogo || 0).toLocaleString('es-PE');
+            
+            renderBars('dailyBars', d.ventasPorDia || []);
+            renderRecent(d.ultimasVentas || []);
+            
+            setStatus('dashboardStatus', 'Datos actualizados correctamente.', 'good');
+        } catch(e) {
+            setStatus('dashboardStatus', e.message, 'bad');
+        } finally {
+            // Quitar skeleton
+            ['totalSales','ticketCount','averageTicket','productCount'].forEach(id => $(id).classList.remove('skeleton'));
+        }
+    }
+
+    // --- VENTAS ---
+    async function loadSales() {
+        setStatus('salesStatus', 'Consultando...', '');
+        $('salesRows').innerHTML = '<tr><td colspan="7" class="empty">Cargando datos...</td></tr>';
+        
+        try {
+            const data = await api('adminVentas', { desde: $('salesFrom').value, hasta: $('salesTo').value });
+            const rows = data.ventas || [];
+            $('salesCount').textContent = rows.length + ' registros';
+            
+            $('salesRows').innerHTML = rows.length 
+                ? rows.map(x => `
+                    <tr>
+                        <td>${esc(x.fecha)}</td>
+                        <td>${esc(x.documento).toUpperCase()}</td>
+                        <td>${esc(x.ticket)}</td>
+                        <td style="max-width:300px; white-space:normal">${esc(x.productos)}</td>
+                        <td class="right">${money(x.subtotal)}</td>
+                        <td class="right">${money(x.igv)}</td>
+                        <td class="right"><b>${money(x.total)}</b></td>
+                    </tr>`).join('')
+                : '<tr><td colspan="7" class="empty">No se encontraron ventas.</td></tr>';
+            setStatus('salesStatus', 'Consulta completada.', 'good');
+        } catch(e) {
+            $('salesRows').innerHTML = '<tr><td colspan="7" class="empty">Error al cargar datos.</td></tr>';
+            setStatus('salesStatus', e.message, 'bad');
+        }
+    }
+
+    // --- PRODUCTOS ---
+    async function loadProducts() {
+        setStatus('productsStatus', 'Consultando...', '');
+        $('productRows').innerHTML = '<tr><td colspan="5" class="empty">Cargando datos...</td></tr>';
+        
+        try {
+            const data = await api('adminProductosVendidos', { desde: $('productsFrom').value, hasta: $('productsTo').value });
+            const rows = data.productos || [];
+            
+            $('productRows').innerHTML = rows.length 
+                ? rows.map(x => `
+                    <tr>
+                        <td><b>${esc(x.nombre)}</b></td>
+                        <td>${esc(x.sku || '—')}</td>
+                        <td>${esc(x.unidad || 'und')}</td>
+                        <td class="right">${Number(x.cantidad || 0).toLocaleString('es-PE')}</td>
+                        <td class="right">${money(x.importe || 0)}</td>
+                    </tr>`).join('')
+                : '<tr><td colspan="5" class="empty">No hay detalle para este periodo.</td></tr>';
+            setStatus('productsStatus', 'Consulta completada.', 'good');
+        } catch(e) {
+            $('productRows').innerHTML = '<tr><td colspan="5" class="empty">Error al cargar datos.</td></tr>';
+            setStatus('productsStatus', e.message, 'bad');
+        }
+    }
+
+    $('refreshBtn').onclick = loadDashboard;
+    $('applyDates').onclick = loadDashboard;
+    $('searchSales').onclick = loadSales;
+    $('searchProducts').onclick = loadProducts;
+
+    // Recuperar sesión activa si existe
+    const savedToken = sessionStorage.getItem(SESSION_KEY);
+    if (savedToken) {
+        sessionToken = savedToken;
+        showApp();
+        loadDashboard();
+    } else {
+        showLogin();
+    }
+</script>
+</body>
+</html>
