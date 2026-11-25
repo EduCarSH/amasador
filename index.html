@@ -790,7 +790,7 @@
                 items: cart.map(item => {
                     const prod = getProduct(item.productId);
                     // cantidad = unidades, o gramos si unidad === 'kg'
-                    return { nombre: prod.name, cantidad: item.quantity, unidad: prod.unit };
+                    return { nombre: prod.name, cantidad: item.quantity, unidad: prod.unit, precio: prod.price };
                 }),
                 subtotal: parseFloat(totales.subtotal.toFixed(2)), igv: parseFloat(totales.igv.toFixed(2)),
                 total: parseFloat(totales.total.toFixed(2)), cajero: 'VENDEDOR 01'
